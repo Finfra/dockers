@@ -16,9 +16,9 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 ad2ad96e4b2f        nowage/ubuntu      "/bin/bash"         7 seconds ago       Up 6 seconds                            u1
 ```
 
-To test,
+To test, ("nowage" is username. )
 ```
-	su - user
+	su - nowage
 ```
 To Rollback
 ```

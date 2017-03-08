@@ -15,9 +15,9 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 ad2ad96e4b2f        nowage/centos7      "/bin/bash"         7 seconds ago       Up 6 seconds                            c1
 ```
 
-To test,
+To test, ("nowage" is username. )
 ```
-	su - user
+	su - nowage
 ```
 To Rollback
 ```
