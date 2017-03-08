@@ -1,5 +1,5 @@
 # dockerfiles-ubuntu-user-adderable
-
+Ubuntu, It support base user creation and password setting.
 
 # Building & Running
 
