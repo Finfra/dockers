@@ -1,4 +1,4 @@
-# Copyright (c) Jupyter Development Team.
+# Copyright (c) Jupyter Development Team. 
 # Distributed under the terms of the Modified BSD License.
 FROM jupyter/scipy-notebook
 
@@ -60,4 +60,3 @@ RUN echo "export MESOS_NATIVE_LIBRARY=/usr/local/lib/libmesos.so">>/home/jovyan/
 ###############################################################################
 
 USER $NB_USER
-
