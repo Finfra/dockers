@@ -1,9 +1,9 @@
 FROM tensorflow/tensorflow
 MAINTAINER The finfraTeam Project <nowage@gmail.com>
 
-COPY ./start.sh /
-RUN chmod 755 /start.sh
-RUN bash /start.sh
+COPY ./install.sh /
+RUN chmod 755 /install.sh
+RUN bash /install.sh
 
 # ENTRYPOINT ["/xx/sshd","sshd"]
-# CMD /start.sh
+# CMD /install.sh
