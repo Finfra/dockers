@@ -1,5 +1,8 @@
-# dockerfiles-ubuntu-user-adderable
-Ubuntu, It support base user creation and password setting.
+# Tensorflow Docker Image from tensorflow/tensorflow
+## Version info
+* Tensorflow : 1.7
+* Python : 3.5
+
 
 # Building & Running
 
@@ -9,7 +12,7 @@ Copy the sources to your docker host and build the container, and to run.
 	docker run -it --rm                   \
 	    --name=t1                         \
 	    -v /Users/nowage/df:/notebooks/df \
-	    -v /Users/nowage/__git/finfra/TensorflowStudyExample:/notebooks/TensorflowStudyExample \
+	    -v /Users/nowage/__git/nowage/TensorflowStudyExample:/notebooks/TensorflowStudyExample \
 	    -p 8888:8888                      \
 	    -p 2222:22                        \
 	    -p 6006:6006                      \
@@ -19,16 +22,12 @@ Get the port that the container is listening on:
 
 ```
 # docker ps
-CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
-ad2ad96e4b2f        nowage/ubuntu      "/bin/bash"         7 seconds ago       Up 6 seconds                            t1
+CONTAINER ID        IMAGE                  COMMAND             CREATED             STATUS              PORTS               NAMES
+ad2ad96e4b2f        nowage/tensorflow      "/bin/bash"         7 seconds ago       Up 6 seconds                            t1
 ```
 
-To test, ("nowage" is username. )
-```
-	su - nowage
-```
 To Rollback
 ```
-    docker rm u1 -f
-    docker rmi nowage/ubuntu
+    docker rm t1 -f
+    docker rmi nowage/tensorflow
 ```
