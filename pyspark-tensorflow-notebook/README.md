@@ -13,7 +13,7 @@ Copy the sources to your docker host and build the container, and to run.
 		-P -it               \
 		-p 8888:8888         \
 		-p 6006:6006         \
-		-v ~/df:/home/dockeruser/df \
+		-v ~/df:/notebooks   \
 		nowage/pyspark-tensorflow-notebook
 ```
 Get the port that the container is listening on:
