@@ -4,14 +4,17 @@
 # Originally written for Fedora-Dockerfiles by
 #   scollier <scollier@redhat.com>
 
-FROM centos:centos7
+FROM mysql
 MAINTAINER The finfraTeam Project <nowage@gmail.com>
 
-ENV LC_ALL en_US.UTF-8
+
+COPY ./install.sh /
+RUN chmod 755 /install.sh
+RUN bash /install.sh
 
 
-COPY ./start.sh /
-RUN chmod 755 /start.sh
 
+#COPY ./start.sh /
+#RUN chmod 755 /start.sh
 # ENTRYPOINT ["/xx/sshd","sshd"]
-CMD /start.sh
+#CMD /start.sh

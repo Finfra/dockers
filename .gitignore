@@ -1,0 +1,12 @@
+# for Mac
+.DS_Store
+Icon
+._*
+.Trash-0
+
+# for Jupyter
+.Trash-0
+**/.ipynb_checkpoints
+**/.ipynb_checkpoints/*.ipynb
+
+

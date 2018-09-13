@@ -8,3 +8,6 @@ python3 -m ipykernel install --user --name=Python3
 pip3 install jupyter
 rm -rf /usr/bin/python
 ln -s /usr/bin/python3 /usr/bin/python
+
+# Pip install
+pip3 install matplotlib
