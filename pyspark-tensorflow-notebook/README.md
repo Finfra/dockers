@@ -24,7 +24,7 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 ad2ad96e4b2f        nowage/pyspark-tensorflow-notebook "/bin/bash"         7 seconds ago       Up 6 seconds                            st
 ```
 
-To test, ("nowage" is username. )
+To test, 
 ```
 	sudo su -
 ```
