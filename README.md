@@ -1,4 +1,4 @@
-# Finfra/dockers - Introduction
+# Finfra/dockers - Introduction.
 
 This git repository is for docker script for our project.
 
