@@ -1,4 +1,4 @@
-apt-get update -y
-apt-get install -y vim
-apt-get install -y python2
-apt-get install -y python3
+apt update -y
+apt install -y vim
+apt install -y python3
+apt install -y python3-pip
