@@ -6,6 +6,7 @@ This git repository is for docker script for our project.
 |name                                                                                                     |description                                            |
 |---------------------------------------------------------------------------------------------------------|-------------------------------------------------------|
 |[nginx](https://github.com/Finfra/dockers/tree/master/nginx)                               |from ubuntu   |
+|[nginx2](https://github.com/Finfra/dockers/tree/master/nginx2)                               |from ubuntu for kubernetes |
 |[centos7_user](https://github.com/Finfra/dockers/tree/master/centos7_user)                               |from centos:centos7 and added user setting function    |
 |[ubuntu_user](https://github.com/Finfra/dockers/tree/master/ubuntu_user)                                 |from ubuntu and added user setting function            |
 |[mysql](https://github.com/Finfra/dockers/tree/master/mysql)                                             |from mysql and added python2/3                         |
