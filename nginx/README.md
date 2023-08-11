@@ -1,5 +1,5 @@
 # dockerfiles-centos-user-adderable
-Nginx install
+Nginx install : Only for Docker
 
 # Building & Running
 

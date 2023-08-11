@@ -1,5 +1,5 @@
 # dockerfiles-centos-user-adderable
-Nginx install
+Nginx install : Use for Docker and Kubernetes
 
 # Building & Running
 
@@ -25,3 +25,14 @@ To Rollback
     docker rm n1 -f
     docker rmi nowage/nginx
 ```
+
+# Example : Test for Kubernetes 
+```
+docker login
+docker push nowage/nginx
+kubectl create deployment --image=nowage/nginx --port=80 n1
+kubectl expose deploy n1 --type=NodePort
+echo nodePort : $(k get svc n1 -o jsonpath="{.spec.ports[0].nodePort}")
+```
+
+
