@@ -1,2 +1,2 @@
 apt update -y 
-apt install -y git tree 
+apt install -y git tree curl
