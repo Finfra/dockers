@@ -1,0 +1,12 @@
+services:
+  app:
+    build: .
+    container_name: sb1
+    hostname: sb1
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./app:/app
+    environment:
+      - JAVA_OPTS=-Xms512m -Xmx1024m
+
