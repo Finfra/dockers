@@ -16,15 +16,14 @@ WORKDIR /app
 # 소스 코드 복사
 # COPY ./app /app
 
-# 애플리케이션 빌드
-CMD bash -c "cd /app;source $HOME/.sdkman/bin/sdkman-init.sh && gradle build -x test"
+# 애플리케이션 빌드 
+RUN bash -c "cd /app&&source $HOME/.sdkman/bin/sdkman-init.sh && gradle build -x test&&java -jar /app/app-0.0.1-SNAPSHOT.jar"
 
 # 빌드된 JAR 파일 실행
 CMD ["java", "-jar", "/app/app-0.0.1-SNAPSHOT.jar"]
 
-
-# # # 디버깅용
-# CMD ["/usr/bin/sleep", "infinity"]
+# # 디버깅용
+#CMD ["/usr/bin/sleep", "infinity"]
 
 
 
