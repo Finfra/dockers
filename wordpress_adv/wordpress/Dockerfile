@@ -17,7 +17,7 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 RUN mkdir -p /data/init
 
 # .env 파일 복사
-COPY ../.env /data/init/.env
+COPY .env /data/init/.env
 
 # 진입점 스크립트 실행
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
