@@ -5,6 +5,7 @@ This git repository is for docker script for our project.
 # Docker script list
 |name                                                                                                     |description                                            |
 |---------------------------------------------------------------------------------------------------------|-------------------------------------------------------|
+|[wordpress_adv](https://github.com/Finfra/dockers/tree/master/wordpress_adv)                               |Advanced WordPress setup with HTTPS and Korean support |
 |[nginx](https://github.com/Finfra/dockers/tree/master/nginx)                               |from ubuntu   |
 |[nginx2](https://github.com/Finfra/dockers/tree/master/nginx2)                               |from ubuntu for kubernetes |
 |[centos7_user](https://github.com/Finfra/dockers/tree/master/centos7_user)                               |from centos:centos7 and added user setting function    |
@@ -36,4 +37,4 @@ NamJungGu, <nowage[at]gmail.com>
 
 # COPYRIGHT AND LICENSE
 
-(c) Copyright 2005-2017 by finfra.com
+(c) Copyright 2005-2024 by finfra.com
