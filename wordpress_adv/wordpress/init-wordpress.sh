@@ -57,7 +57,10 @@ wp plugin install akismet --path=/var/www/html --allow-root
 wp plugin activate akismet --path=/var/www/html --allow-root
 # wp plugin install wordpress-seo --path=/var/www/html --allow-root
 # wp plugin activate wordpress-seo --path=/var/www/html --allow-root
-
+# wp plugin install rest-api-controller --path=/var/www/html --allow-root
+# wp plugin activate rest-api-controller --path=/var/www/html --allow-root
+wp plugin install wp-rest-api-controller --path=/var/www/html --allow-root
+wp plugin activate wp-rest-api-controller --path=/var/www/html --allow-root
 # 설치 완료 표시
 touch /data/init/setting.ok
 echo "WordPress 설치가 완료되었습니다."

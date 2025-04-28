@@ -19,8 +19,17 @@ if [ "$1" == "--clear" ]; then
     echo "Data cleared. Continuing with installation..."
 fi
 
-# 비밀번호 파일에서 비밀번호 읽기
-BASIC_PW=$(cat ~/.ssh/basic_pw)
+# 비밀번호 파일에서 비밀번호 읽기, 없으면 입력받기
+if [ ! -f ~/.ssh/basic_pw ]; then
+    read -p "Enter the basic password: " BASIC_PW
+    echo "$BASIC_PW" > ~/.ssh/basic_pw
+else
+    BASIC_PW=$(cat ~/.ssh/basic_pw)
+fi
+
+# setting.ok 파일 존재 여부 확인
+if [ ! -f "data/init/setting.ok" ]; then
+    echo "setting.ok 파일이 없습니다. 초기 설정을 진행합니다..."
 
 # .env 파일 생성
 echo "Creating .env file..."
@@ -42,31 +51,37 @@ WORDPRESS_ADMIN_PASSWORD=${BASIC_PW}
 WORDPRESS_ADMIN_EMAIL=jgnam73@hotmail.com
 WORDPRESS_URL=http://localhost:8080
 EOF
+    # .env 파일 복사 wordpress 폴더에 복사
+    cp .env wordpress/
+    # 필요한 디렉토리 생성
+    echo "Creating necessary directories..."
+    mkdir -p data/contents data/init data/wpDb1
 
-# 필요한 디렉토리 생성
-echo "Creating necessary directories..."
-mkdir -p data/contents data/init data/wpDb1
+    # WordPress 설정 파일 복사
+    echo "Copying wp-config.php..."
+    cp wp-config.php data/contents/wp-config.php
+    sed -i '' "s/wordpress_password/${BASIC_PW}/g" data/contents/wp-config.php
 
-# WordPress 설정 파일 복사
-echo "Copying wp-config.php..."
-cp wp-config.php data/contents/wp-config.php
-sed -i '' "s/wordpress_password/${BASIC_PW}/g" data/contents/wp-config.php
+    # .env 파일을 data/init으로 복사
+    echo "Copying .env file to data/init..."
+    cp .env data/init/
 
-# .env 파일을 data/init으로 복사
-echo "Copying .env file to data/init..."
-cp .env data/init/
+    # x64 환경인 경우 docker-compose.yml 수정
+    if [ "$(uname -m)" = "x86_64" ]; then
+        sed -i '' 's/platform: linux\/arm64\/v8//g' docker-compose.yml
+    fi
 
-# x64 환경인 경우 docker-compose.yml 수정
-if [ "$(uname -m)" = "x86_64" ]; then
-    sed -i '' 's/platform: linux\/arm64\/v8//g' docker-compose.yml
+    # 초기화 스크립트 복사
+    echo "초기화 스크립트를 복사합니다..."
+    cp wordpress/docker-entrypoint.sh data/init/
+    cp wordpress/init-wordpress.sh data/init/
+    cp .env data/init/
+    chmod +x data/init/*.sh
+    
+    # Docker 이미지 빌드
+    echo "Building Docker images..."
+    docker-compose --env-file .env build
 fi
-
-# 초기화 스크립트 복사
-echo "초기화 스크립트를 복사합니다..."
-cp wordpress/docker-entrypoint.sh data/init/
-cp wordpress/init-wordpress.sh data/init/
-cp .env data/init/
-chmod +x data/init/*.sh
 
 # Docker Compose 실행
 echo "Starting Docker containers..."
