@@ -9,3 +9,9 @@ Icon
 .Trash-0
 **/.ipynb_checkpoints
 **/.ipynb_checkpoints/*.ipynb
+
+# for Docker
+data/contents/
+data/secrets/
+data/init/
+data/wpDb1/
