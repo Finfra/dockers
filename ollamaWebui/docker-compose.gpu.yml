@@ -1,0 +1,41 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    hostname: ollama
+    ports:
+      - "11400:11400"
+    volumes:
+      - ~/.ollama:/root/.ollama
+    networks:
+      - onet
+    restart: always
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  webui:
+    image: ghcr.io/open-webui/open-webui:ollama
+    container_name: webui
+    hostname: webui
+    ports:
+      - "8080:8080"
+    volumes:
+      - ~/.ollama:/root/.ollama
+      - ./webui:/app/backend/data
+    environment:
+      - OLLAMA_API_BASE_URL=http://ollama:11400
+    networks:
+      - onet
+    restart: always
+    depends_on:
+      - ollama
+
+networks:
+  onet:
+    name: onet
+    external: true 

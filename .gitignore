@@ -15,3 +15,7 @@ data/contents/
 data/secrets/
 data/init/
 data/wpDb1/
+
+# for Ollama WebUI
+ollamaWebui/webui/
+!ollamaWebui/webui/.gitkeep
