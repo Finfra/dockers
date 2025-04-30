@@ -1,6 +1,6 @@
 # Ollama WebUI Docker Compose
 
-이 프로젝트는 Ollama와 Open WebUI를 Docker Compose를 사용하여 쉽게 실행할 수 있도록 구성되어 있습니다.
+이 프로젝트는 Ollama와 Open WebUI를 Docker Compose를 사용하여 쉽게 실행할 수 있도록 구성되어 있습니다. GPU 유무를 자동으로 감지하여 적절한 설정으로 실행됩니다.
 
 ## 요구사항
 
@@ -10,52 +10,20 @@
 
 ## 설치 및 실행 방법
 
-1. 필요한 디렉토리 생성:
+1. 스크립트에 실행 권한 부여:
 ```bash
-mkdir -p ~/.ollama
+chmod +x start.sh
 ```
 
-2. Docker Compose 실행:
+2. 서비스 시작:
 ```bash
-docker-compose up -d
+./start.sh
 ```
 
-3. 서비스 확인:
-```bash
-curl http://localhost:8080/
-```
-
-## GPU 사용하기 (선택사항)
-
-NVIDIA GPU를 사용하려면:
-
-1. NVIDIA Container Toolkit 설치:
-```bash
-distribution=$(. /etc/os-release;echo $ID$VERSION_ID) \
-   && curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add - \
-   && curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
-
-sudo apt-get update
-sudo apt-get install -y nvidia-docker2
-sudo systemctl restart docker
-```
-
-2. `docker-compose.yml` 파일에서 GPU 설정 주석 해제:
-```yaml
-deploy:
-  resources:
-    reservations:
-      devices:
-        - driver: nvidia
-          count: all
-          capabilities: [gpu]
-```
-
-3. 서비스 재시작:
-```bash
-docker-compose down
-docker-compose up -d
-```
+스크립트는 자동으로:
+- 필요한 디렉토리를 생성합니다
+- Docker 네트워크를 생성합니다
+- GPU 유무를 감지하여 적절한 설정으로 서비스를 시작합니다
 
 ## 서비스 정보
 
@@ -63,7 +31,7 @@ docker-compose up -d
 - 포트: 11400
 - 컨테이너 이름: ollama
 - 볼륨: ~/.ollama:/root/.ollama
-- GPU 지원: 선택사항 (설정 필요)
+- GPU 지원: 자동 감지 및 설정
 
 ### WebUI
 - 포트: 8080
@@ -97,8 +65,19 @@ docker exec -it ollama ollama pull llama2
 - WebUI: http://localhost:8080
 - Ollama API: http://localhost:11400
 
-## GPU 사용 확인
-GPU가 정상적으로 인식되었는지 확인하려면:
+## 서비스 관리
+
+### 서비스 중지
 ```bash
-docker exec -it ollama nvidia-smi
+docker-compose down
+```
+
+### 서비스 재시작
+```bash
+./start.sh
+```
+
+### 볼륨 포함하여 완전 삭제
+```bash
+docker-compose down --volumes
 ``` 
