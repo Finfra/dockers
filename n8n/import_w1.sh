@@ -4,7 +4,17 @@
 N8N_API="http://localhost:5678/api/v1"
 
 # API 키 설정
-API_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmOTVhN2ZjMS03NzM4LTRjOTgtYmJlMy02NWI5YzBkZDYzYjEiLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwiaWF0IjoxNzQ2MDI1NTU3LCJleHAiOjE3NDg1Nzc2MDB9.mgCMVQ8mMjXaCx-lB-kNU7-RYzaxL3UecD5eWK3i9Hc"
+API_KEY_FILE="n8n/data/setting/api_key"
+if [ ! -f "$API_KEY_FILE" ]; then
+    echo "API 키 파일이 존재하지 않습니다."
+    echo "n8n 웹 인터페이스에서 API 키를 생성하고 입력해주세요."
+    echo "API 키는 n8n 웹 인터페이스의 Settings > API에서 확인할 수 있습니다."
+    read -p "API 키를 입력하세요: " API_KEY
+    echo "$API_KEY" > "$API_KEY_FILE"
+    echo "API 키가 파일에 저장되었습니다."
+else
+    API_KEY=$(cat "$API_KEY_FILE")
+fi
 
 echo "Using API Key: $API_KEY"
 
