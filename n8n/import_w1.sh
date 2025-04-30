@@ -53,5 +53,4 @@ echo "활성화 응답: $ACTIVATE_RESPONSE"
 echo "워크플로우 가져오기 및 활성화 완료"
 
 # POST 요청 응답 출력
-echo "POST 요청 응답:"
-echo "$WORKFLOW_RESPONSE" | jq '.' 
+echo "POST 요청 응답:  curl -X POST "http://localhost:5678/webhook/webhook1" -H "Content-Type: application/json" -d '{"test": "data3"}'"
