@@ -4,7 +4,7 @@ services:
     container_name: ollama
     hostname: ollama
     ports:
-      - "11400:11400"
+      - "11434:11434"
     volumes:
       - ~/.ollama:/root/.ollama
     networks:
@@ -28,7 +28,7 @@ services:
       - ~/.ollama:/root/.ollama
       - ./webui:/app/backend/data
     environment:
-      - OLLAMA_API_BASE_URL=http://ollama:11400
+      - OLLAMA_API_BASE_URL=http://ollama:11434
     networks:
       - onet
     restart: always

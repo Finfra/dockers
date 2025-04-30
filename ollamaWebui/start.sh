@@ -19,4 +19,4 @@ fi
 # 서비스 확인
 echo "서비스가 시작되었습니다. 잠시 후 다음 URL에서 접속 가능합니다:"
 echo "WebUI: http://localhost:8080"
-echo "Ollama API: http://localhost:11400" 
+echo "Ollama API: http://localhost:11434"
