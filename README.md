@@ -5,6 +5,7 @@ This git repository is for docker script for our project.
 # Docker script list
 |name                                                                                                     |description                                            |
 |---------------------------------------------------------------------------------------------------------|-------------------------------------------------------|
+|[n8n](https://github.com/Finfra/dockers/tree/master/n8n)                                                 |Workflow automation tool with custom nodes and settings|
 |[wordpress_adv](https://github.com/Finfra/dockers/tree/master/wordpress_adv)                               |Advanced WordPress setup with HTTPS and Korean support |
 |[nginx](https://github.com/Finfra/dockers/tree/master/nginx)                               |from ubuntu   |
 |[nginx2](https://github.com/Finfra/dockers/tree/master/nginx2)                               |from ubuntu for kubernetes |

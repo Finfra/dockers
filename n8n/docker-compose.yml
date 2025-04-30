@@ -1,0 +1,20 @@
+services:
+  st_n8n:
+    image: n8nio/n8n
+    container_name: st_n8n
+    hostname: st_n8n
+    restart: always
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_USER=n8n
+      - N8N_HOST=localhost
+      - N8N_WEBHOOK_URL=http://localhost:5678
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=false
+      - N8N_RUNNERS_ENABLED=true
+      - N8N_SECURE_COOKIE=false
+    volumes:
+      - ./data/custom:/home/node/.n8n/custom
+      - ./data/setting:/home/node/.n8n
+      - ./data/log:/home/node/log
+

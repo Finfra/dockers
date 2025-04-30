@@ -1,0 +1,4 @@
+# n8n 데이터 디렉토리 제외
+data/*
+# .gitkeep 파일은 예외
+!data/**/.gitkeep 
