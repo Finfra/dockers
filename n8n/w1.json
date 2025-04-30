@@ -1,0 +1,122 @@
+{
+  "name": "w1",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "expression": "1"
+            }
+          ]
+        },
+        "options": {
+          "repeat": true
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "142f6bc1-486a-4747-a6be-66c9210445e9",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "path": "webhook1",
+        "options": {
+          "allowUnauthorizedCerts": true,
+          "responseCode": 200
+        },
+        "authentication": "none",
+        "responseMode": "lastNode",
+        "responseData": "allData",
+        "httpMethod": "POST",
+        "responseHeaders": {},
+        "responseStatusCode": 200,
+        "activate": true,
+        "listenForTestEvent": true
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        300
+      ],
+      "id": "http-trigger",
+      "name": "HTTP Trigger",
+      "webhookId": "webhook1"
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        640,
+        80
+      ],
+      "id": "33c85e84-b6ce-4d3d-a0ce-65807d229915",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "=/home/node/share/test_{{ $now.toMillis() }}.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        980,
+        80
+      ],
+      "id": "fa6516bf-ea8f-4577-99d0-b8daaa793b75",
+      "name": "Read/Write Files from Disk"
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Trigger": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null
+} 

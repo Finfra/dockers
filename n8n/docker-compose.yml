@@ -1,20 +1,31 @@
 services:
-  st_n8n:
+  n8n:
+  
     image: n8nio/n8n
-    container_name: st_n8n
-    hostname: st_n8n
+    container_name: n8n
+    hostname: n8n
     restart: always
     ports:
       - "5678:5678"
+    env_file:
+      - .env
     environment:
-      - N8N_USER=n8n
-      - N8N_HOST=localhost
-      - N8N_WEBHOOK_URL=http://localhost:5678
-      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=false
-      - N8N_RUNNERS_ENABLED=true
-      - N8N_SECURE_COOKIE=false
+      - N8N_USER=${N8N_USER}
+      - N8N_HOST=${N8N_HOST}
+      - N8N_WEBHOOK_URL=${N8N_WEBHOOK_URL}
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=${N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS}
+      - N8N_RUNNERS_ENABLED=${N8N_RUNNERS_ENABLED}
+      - N8N_SECURE_COOKIE=${N8N_SECURE_COOKIE}
+      - N8N_USER_MANAGEMENT_DISABLED=${N8N_USER_MANAGEMENT_DISABLED}
+      - N8N_BASIC_AUTH_ACTIVE=${N8N_BASIC_AUTH_ACTIVE}
+      - N8N_BASIC_AUTH_USER=${N8N_BASIC_AUTH_USER}
+      - N8N_BASIC_AUTH_PASSWORD=${N8N_BASIC_AUTH_PASSWORD}
+      - N8N_API_KEY=${N8N_API_KEY}
+      - N8N_PUBLIC_API_ENABLED=true
+      - N8N_PUBLIC_API_DISABLED=false
+      - N8N_API_KEY_ENABLED=true
     volumes:
-      - ./data/custom:/home/node/.n8n/custom
       - ./data/setting:/home/node/.n8n
+      - ./data/share:/home/node/share
       - ./data/log:/home/node/log
-
+      - ./data/contents:/home/node/contents
