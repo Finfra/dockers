@@ -19,3 +19,8 @@ data/wpDb1/
 # for Ollama WebUI
 ollamaWebui/webui/
 !ollamaWebui/webui/.gitkeep
+
+# for n8n
+n8n/data/*
+!n8n/data/**/.gitkeep
+n8n/.env
