@@ -1,6 +1,7 @@
 # Ollama WebUI Docker Compose
-
-이 프로젝트는 Ollama와 Open WebUI를 Docker Compose를 사용하여 쉽게 실행할 수 있도록 구성되어 있습니다. GPU 유무를 자동으로 감지하여 적절한 설정으로 실행됩니다.
+* 이 프로젝트는 Ollama와 Open WebUI를 Docker Compose를 사용하여 쉽게 실행할 수 있도록 구성되어 있음.  
+* GPU 유무를 자동으로 감지하여 적절한 설정으로 실행됨.
+* ubuntu서버 등에서는 퍼미션 문제 주의
 
 ## 요구사항
 
