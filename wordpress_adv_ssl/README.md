@@ -7,17 +7,73 @@
 
 - Docker
 - Docker Compose
+- OpenSSL
 - ~/.ssh/basic_pw 파일 (비밀번호 저장용)
 
 ## 설치 및 실행 방법
+
+1. 저장소 클론:
+```bash
+git clone <repository-url>
+cd wordpress_adv_ssl
+```
+
+2. SSL 인증서 생성:
+```bash
+./generate_ssl.sh
+```
+
+3. 컨테이너 시작:
 ```bash
 ./install.sh
 ```
-또는 모든 데이터를 초기화하고 설치:
+
+## SSL 인증서 테스트
+
+### 브라우저 테스트
+1. 브라우저에서 다음 주소로 접속:
+```
+https://localhost:8443
+```
+2. 자체 서명 인증서를 사용하므로 보안 경고가 표시될 수 있습니다. 다음 단계로 진행:
+   - "고급" 또는 "자세히" 클릭
+   - "안전하지 않음으로 계속" 선택
+   - 처음 접속 시에는 다음 단계도 필요:
+     - "인증서 보기" 또는 "인증서 정보" 클릭
+     - "항상 이 인증서 신뢰" 옵션 체크
+     - "확인" 또는 "진행" 클릭
+
+### 커맨드라인 테스트
+curl 명령어로 SSL 연결을 테스트할 수 있습니다:
 ```bash
-./install.sh --clear
+curl -v https://localhost:8443 --cacert ~/.ssh/ssl/server-cert.pem
 ```
 
+이 명령어는 다음 정보를 보여줍니다:
+- SSL 핸드셰이크 상세 정보
+- 인증서 체인 검증 결과
+- 서버 응답 내용
+
+연결이 성공하면 다음 내용이 표시됩니다:
+- SSL 핸드셰이크 완료
+- HTTP 응답 헤더
+- WordPress 사이트의 HTML 내용
+
+### 문제 해결
+SSL 오류가 발생할 경우:
+1. 인증서 파일 존재 확인:
+```bash
+ls -l ~/.ssh/ssl/
+```
+2. 인증서 상세 정보 확인:
+```bash
+openssl x509 -in ~/.ssh/ssl/server-cert.pem -text -noout
+```
+3. 컨테이너 재시작:
+```bash
+docker-compose down
+docker-compose up -d
+```
 
 ## 주요 특징
 
@@ -51,12 +107,13 @@
 
 ## 접속 정보
 
-- WordPress 사이트: https://localhost:8080
-- WordPress 관리자: https://localhost:8080/wp-admin
-- MySQL: localhost:3306
+- WordPress 사이트: https://localhost:8443
+- WordPress 관리자: https://localhost:8443/wp-admin
+- MySQL: wpdb1
+- Database Name: wordpress
+- Database User: wordpress
 
 ## SSL 인증서
-
 
 ## ~/.ssh/ssl에 SSL 인증서 생성 및 Keychain 등록
 개발 환경에서는 자체 서명된 SSL 인증서를 사용합니다. 브라우저에서 보안 경고가 표시될 수 있으며, 이는 개발 환경에서는 무시해도 됩니다.
@@ -103,11 +160,7 @@ openssl req -new -key server-key.pem -out server.csr \
 
 * nginx나 Docker에서 사용 시 `server-key.pem`과 `server-cert.pem` 경로 마운트 필요
 
-```
-
-
 ## 데이터 초기화
-
 
 ## 컨테이너 관리
 
@@ -115,3 +168,8 @@ openssl req -new -key server-key.pem -out server.csr \
 ```bash
 docker-compose down
 ```
+
+## 참고사항
+- 이 설정은 개발 목적으로 자체 서명 인증서를 사용합니다
+- 프로덕션 환경에서는 신뢰할 수 있는 인증 기관(CA)에서 발급한 인증서를 사용하는 것이 좋습니다
+- 인증서는 기본적으로 10년간 유효합니다
