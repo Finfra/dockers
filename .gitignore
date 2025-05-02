@@ -24,3 +24,10 @@ ollamaWebui/webui/
 n8n/data/*
 !n8n/data/**/.gitkeep
 n8n/.env
+
+# for WordPress SSL
+wordpress_adv_ssl/data/
+wordpress_adv_ssl/.env
+wordpress_adv_ssl/wordpress/.env
+~/.ssh/ssl/
+!~/.ssh/ssl/README.md
