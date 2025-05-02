@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ~/.ssh/ssl:/etc/ssl/private
+      - ./nginx/html:/usr/share/nginx/html
+    restart: unless-stopped 

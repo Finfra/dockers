@@ -1,0 +1,62 @@
+services:
+  # 데이터베이스 서비스
+  wpDb1:
+    image: wordpress_mysql
+    container_name: wpDb1
+    hostname: wpdb1
+    domainname: local
+    volumes:
+      - ./data/wpDb1:/var/lib/mysql
+      - ./data/init:/docker-entrypoint-initdb.d
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+    networks:
+      - wnet
+    ports:
+      - "3306:3306"
+
+  # WordPress 서비스
+  wp1:
+    depends_on:
+      - wpDb1
+    build:
+      context: ./wordpress
+      dockerfile: Dockerfile
+    image: wordpress_custom
+    container_name: wp1
+    hostname: wp1
+    domainname: local
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: wpdb1
+      WORDPRESS_DB_USER: ${DB_USER}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+      WORDPRESS_DB_NAME: ${DB_NAME}
+      WORDPRESS_URL: ${WORDPRESS_URL}
+      WORDPRESS_TITLE: ${WORDPRESS_TITLE}
+      WORDPRESS_ADMIN_USER: ${WORDPRESS_ADMIN_USER}
+      WORDPRESS_ADMIN_PASSWORD: ${WORDPRESS_ADMIN_PASSWORD}
+      WORDPRESS_ADMIN_EMAIL: ${WORDPRESS_ADMIN_EMAIL}
+    volumes:
+      - ./data/contents:/var/www/html
+      - ./data/init:/data/init
+      - ~/.ssh/ssl/server-cert.pem:/etc/ssl/certs/server-cert.pem:ro
+      - ~/.ssh/ssl/server-key.pem:/etc/ssl/private/server-key.pem:ro
+    networks:
+      - wnet
+    command: >
+      bash -c "
+        /usr/local/bin/docker-entrypoint.sh apache2-foreground
+      "
+
+networks:
+  wnet:
+    driver: bridge
