@@ -23,7 +23,9 @@ define('DB_COLLATE', 'utf8mb4_unicode_ci');
 $table_prefix = 'wp_';
 
 // ** 디버그 모드 ** //
-define('WP_DEBUG', false);
+define('WP_DEBUG', true);
+define('WP_DEBUG_LOG', true);
+define('WP_DEBUG_DISPLAY', true);
 
 // ** 기본 테마 설정 ** //
 define('WP_DEFAULT_THEME', 'twentytwentyfour');
@@ -46,26 +48,19 @@ if ($configExtra = getenv_docker('WORDPRESS_CONFIG_EXTRA', '')) {
 }
 
 // ** 사이트 URL 설정 (설치 완료 후에는 DB에 저장됨) ** //
-define('WP_SITEURL', getenv_docker('WORDPRESS_URL', 'http://localhost:8080'));
-define('WP_HOME', getenv_docker('WORDPRESS_URL', 'http://localhost:8080')); 
+define('WP_SITEURL', getenv_docker('WORDPRESS_URL', 'https://localhost:8443'));
+define('WP_HOME', getenv_docker('WORDPRESS_URL', 'https://localhost:8443')); 
 
 // ** WordPress 디렉토리 경로 ** //
 if (!defined('ABSPATH')) {
     define('ABSPATH', __DIR__ . '/');
 }
 
-// ** WordPress 설정 파일 로드 ** //
-require_once ABSPATH . 'wp-settings.php';
-
 define('WP_FORCE_SSL_ADMIN', false);
 define('FORCE_SSL_ADMIN', true);
 define('WP_ENVIRONMENT_TYPE', 'staging');
-define( 'SCRIPT_DEBUG', true );
+define('SCRIPT_DEBUG', true);
 define('WP_APPLICATION_PASSWORDS_ENABLED', true);
-
-
-
-
 
 // ** WordPress 설정 파일 로드 ** //
 require_once ABSPATH . 'wp-settings.php';

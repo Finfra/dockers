@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   # 데이터베이스 서비스
   wpDb1:
@@ -32,11 +34,11 @@ services:
     hostname: wp1
     domainname: local
     ports:
-      - "80:80"
-      - "443:443"
+      - "8080:80"
+      - "8443:443"
     restart: always
     environment:
-      WORDPRESS_DB_HOST: wpdb1
+      WORDPRESS_DB_HOST: wpDb1
       WORDPRESS_DB_USER: ${DB_USER}
       WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
       WORDPRESS_DB_NAME: ${DB_NAME}
@@ -50,10 +52,13 @@ services:
       - ./data/init:/data/init
       - ~/.ssh/ssl/server-cert.pem:/etc/ssl/certs/server-cert.pem:ro
       - ~/.ssh/ssl/server-key.pem:/etc/ssl/private/server-key.pem:ro
+      - ./wordpress/ssl.conf:/etc/apache2/sites-available/default-ssl.conf:ro
     networks:
       - wnet
     command: >
       bash -c "
+        a2enmod ssl &&
+        a2ensite default-ssl &&
         /usr/local/bin/docker-entrypoint.sh apache2-foreground
       "
 

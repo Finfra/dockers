@@ -5,6 +5,12 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
     && chmod +x wp-cli.phar \
     && mv wp-cli.phar /usr/local/bin/wp
 
+# SSL 모듈 활성화 및 설정
+RUN a2enmod ssl \
+    && a2ensite default-ssl \
+    && sed -i 's|SSLCertificateFile.*|SSLCertificateFile /etc/ssl/certs/server-cert.pem|' /etc/apache2/sites-available/default-ssl.conf \
+    && sed -i 's|SSLCertificateKeyFile.*|SSLCertificateKeyFile /etc/ssl/private/server-key.pem|' /etc/apache2/sites-available/default-ssl.conf
+
 # 설치 스크립트 복사
 COPY init-wordpress.sh /usr/local/bin/init-wordpress.sh
 RUN chmod +x /usr/local/bin/init-wordpress.sh

@@ -6,7 +6,13 @@ set -e
 # 현재 디렉토리 저장
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-
+# SSL 인증서 존재 여부 확인
+if [ ! -f ~/.ssh/ssl/server-cert.pem ] || [ ! -f ~/.ssh/ssl/server-key.pem ]; then
+    echo -e "\033[1;31mSSL 인증서가 존재하지 않습니다.\033[0m"
+    echo -e "\033[1;33mREADME.md를 참고하여 SSL 인증서를 생성하세요.\033[0m"
+    echo -e "\033[1;33m인증서 생성 후 다시 스크립트를 실행해주세요.\033[0m"
+    exit 1
+fi
 
 # 기존 컨테이너와 볼륨 정리
 echo "Cleaning up existing containers and volumes..."
@@ -41,7 +47,7 @@ DB_USER=wordpress
 DB_PASSWORD=${BASIC_PW}
 
 # WordPress 설정
-WORDPRESS_DB_HOST=wpdb1
+WORDPRESS_DB_HOST=wpDb1
 WORDPRESS_DB_USER=wordpress
 WORDPRESS_DB_PASSWORD=${BASIC_PW}
 WORDPRESS_DB_NAME=wordpress
@@ -49,7 +55,7 @@ WORDPRESS_TITLE="MySite"
 WORDPRESS_ADMIN_USER=admin
 WORDPRESS_ADMIN_PASSWORD=${BASIC_PW}
 WORDPRESS_ADMIN_EMAIL=jgnam73@hotmail.com
-WORDPRESS_URL=http://localhost:8080
+WORDPRESS_URL=https://localhost:8443
 EOF
     # .env 파일 복사 wordpress 폴더에 복사
     cp .env wordpress/
@@ -59,7 +65,8 @@ EOF
 
     # WordPress 설정 파일 복사
     echo "Copying wp-config.php..."
-    cp wp-config.php data/contents/
+    cp wp-config.php data/contents/wp-config.php
+    sed -i '' "s/wordpress_password/${BASIC_PW}/g" data/contents/wp-config.php
 
     # .env 파일을 data/init으로 복사
     echo "Copying .env file to data/init..."
@@ -96,7 +103,7 @@ echo "MySQL is ready!"
 
 # WordPress 컨테이너가 준비될 때까지 대기
 echo "Waiting for WordPress to be ready..."
-until curl -s http://localhost:8080 > /dev/null; do
+until curl -k -s https://localhost:8443 > /dev/null; do
     echo "WordPress is not ready yet. Waiting..."
     sleep 5
 done
@@ -110,8 +117,8 @@ docker-compose --env-file .env ps
 
 # 접속 정보 표시
 echo -e "\n\033[1;34mWordPress Access Information:\033[0m"
-echo "URL: http://localhost:8080"
-echo "Admin URL: http://localhost:8080/wp-admin"
+echo "URL: https://localhost:8443"
+echo "Admin URL: https://localhost:8443/wp-admin"
 echo "Admin Username: admin"
 echo "Admin Password: ${BASIC_PW}"
 echo ""

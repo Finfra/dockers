@@ -39,7 +39,7 @@ HTTPS 연결을 테스트하려면 다음 명령어를 사용합니다:
 curl -v https://localhost --cacert ~/.ssh/ssl/server-cert.pem
 ```
 
-또는 웹 브라우저에서 `https://localhost`에 접속할 수 있습니다.
+또는 웹 브라우저에서 `https://localhost`에 접속할 수 있습니다(처음 한번은 브라우저에서 인증서 보기에서 인증서 확인 안한다는 체크해야됨).
 
 ## 프로젝트 구조
 
