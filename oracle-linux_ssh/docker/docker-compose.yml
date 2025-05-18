@@ -1,14 +1,14 @@
 services:
   provisioner:
     build: .
-    image: nowage/sremsa-provisioner:ssh
-    container_name: provisioner
-    hostname: provisioner
+    image: nowage/oraclelinux:ssh
+    container_name: o1
+    hostname: o1
     ports:
-      - "32222:22"
+      - "22222:22"
     volumes:
       - ../root:/root
       - ~/df:/df
     environment:
       - TZ=Asia/Seoul
-    tty: true
+    tty: true 

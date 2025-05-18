@@ -6,6 +6,9 @@ services:
     hostname: u1
     volumes:
       - ../root:/root
+      - ~/df:/df
     environment:
       - TZ=Asia/Seoul
     tty: true
+    ports:
+      - "12222:22"

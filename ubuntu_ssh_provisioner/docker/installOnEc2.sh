@@ -14,8 +14,11 @@ grep -qxF "export DEBIAN_FRONTEND=noninteractive" /root/.bashrc || echo "export 
 # hostname provisioner
 # hostname > /etc/hostname
 
-apt -y update
+apt update
 apt -y install unzip curl jq git wget vim
+apt -y install locales
+locale-gen en_US.UTF-8
+update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
 
 # install pip
 add-apt-repository ppa:deadsnakes/ppa -y

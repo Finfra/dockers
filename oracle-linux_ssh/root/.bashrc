@@ -103,23 +103,4 @@ set input-meta on
 set output-meta on
 set convert-meta off
 
-export EDITOR=vi
-
-alias ta="echo '
-terraform destroy -auto-approve
-terraform init
-terraform apply -auto-approve
-cat terraform.tfstate|grep public_ip|grep -v associate
-';
-terraform destroy -auto-approve
-terraform init
-terraform apply -auto-approve
-cat terraform.tfstate|grep public_ip|grep -v associate
-"
-alias td="echo 'terraform destroy -auto-approve
-';terraform destroy -auto-approve
-"
-alias dk="echo 'aws ec2 delete-key-pair --key-name mykey
-';aws ec2 delete-key-pair --key-name mykey
-"
-source /root/sreMsaProvision/config.sh
+export EDITOR=vi 

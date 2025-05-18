@@ -19,20 +19,20 @@
    cd docker
    docker-compose up -d
    ```
+2. 컨테이너에 직접 접속하려면:
+   ```bash
+   cd docker
+   docker-compose exec u1 bash
+   ```
 
-2. 컨테이너에 SSH로 접속합니다.
+3. 컨테이너에 SSH로 접속합니다.
    - SSH 클라이언트에서 아래와 같이 접속합니다.
      ```bash
-     ssh [사용자명]@[호스트주소] -p [포트번호]
+     ssh root@localhost -p 12222
      ```
      `[사용자명]`, `[호스트주소]`, `[포트번호]`는 `docker-compose.yml` 및 환경설정에 따라 다를 수 있습니다.
 
-3. 컨테이너에 직접 접속하려면:
-   ```bash
-   cd docker
-   docker-compose exec [서비스명] bash
-   ```
-   `[서비스명]`에는 `docker-compose.yml`에 정의된 서비스 이름을 입력하세요.
+
 
 ## 참고
 
