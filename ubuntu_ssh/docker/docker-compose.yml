@@ -1,0 +1,11 @@
+services:
+  provisioner:
+    build: .
+    image: nowage/ubuntu:ssh
+    container_name: u1
+    hostname: u1
+    volumes:
+      - ../root:/root
+    environment:
+      - TZ=Asia/Seoul
+    tty: true

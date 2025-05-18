@@ -1,0 +1,11 @@
+services:
+  provisioner:
+    build: .
+    image: nowage/sremsa-provisioner:ssh
+    container_name: provisioner
+    hostname: provisioner
+    volumes:
+      - ../root:/root
+    environment:
+      - TZ=Asia/Seoul
+    tty: true
