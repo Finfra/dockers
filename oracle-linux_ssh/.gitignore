@@ -1,0 +1,11 @@
+root/.ssh/
+root/.ansible/
+root/.aws/
+root/.cache/
+root/.cursor/
+root/.cursor-server/
+root/.terraform.d/
+root/.viminfo
+root/.bash_history
+root/.Xauthority
+root/config.sh
