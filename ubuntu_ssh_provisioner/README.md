@@ -6,8 +6,6 @@
 
 - **docker/**: 도커 관련 설정 파일 및 스크립트
 - **root/**
-  - **ansible/**: Ansible 플레이북 및 설정 파일
-  - **terraform/**: Terraform 인프라 코드 및 설정 파일
 
 ## 주요 기능
 
@@ -27,10 +25,24 @@
    ```bash
    cd docker
    docker-compose exec provisioner bash
+   # 키설정
    ```
    `[서비스명]`에는 `docker-compose.yml`에 정의된 서비스 이름을 입력하세요.
 
-3. Ansible 또는 Terraform 디렉토리로 이동하여 필요한 작업을 수행합니다.
+4. ssh로 접속합니다. 
+   ```
+   ssh root@localhost -p12222
+   ```
+
+5. .ssh/config적용 예
+   ```
+   Host provisioner
+      HostName 127.0.0.1
+      Port 12222
+      User root
+   ```
+
+6. Ansible 또는 Terraform 디렉토리로 이동하여 필요한 작업을 수행합니다.
 
 ## 참고
 

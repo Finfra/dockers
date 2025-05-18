@@ -4,6 +4,8 @@ services:
     image: nowage/sremsa-provisioner:ssh
     container_name: provisioner
     hostname: provisioner
+    ports:
+      - "12222:22"
     volumes:
       - ../root:/root
     environment:
