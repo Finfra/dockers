@@ -5,10 +5,18 @@ WORKDIR /root
 
 # SSH 서버 설치 및 설정
 RUN apt-get update && apt-get install -y openssh-server
+RUN apt -y install unzip curl jq git wget vim
+RUN apt -y install locales
+RUN locale-gen en_US.UTF-8
+RUN update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
+
 RUN mkdir /var/run/sshd
 
 # root 사용자 비밀번호 설정
 RUN mkdir -p /var/run/ssh
+RUN mkdir -p /root/.ssh
+RUN chmod 700 /root/.ssh
+
 RUN echo 'root:password' | chpasswd
 
 # SSH 설정 변경

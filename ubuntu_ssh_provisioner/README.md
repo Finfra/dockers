@@ -31,7 +31,7 @@
 
 4. ssh로 접속합니다. 
    ```
-   ssh root@localhost -p12222
+   ssh root@localhost -p32222
    ```
 
 5. .ssh/config적용 예
@@ -41,8 +41,6 @@
       Port 12222
       User root
    ```
-
-6. Ansible 또는 Terraform 디렉토리로 이동하여 필요한 작업을 수행합니다.
 
 ## 참고
 
