@@ -122,4 +122,4 @@ alias td="echo 'terraform destroy -auto-approve
 alias dk="echo 'aws ec2 delete-key-pair --key-name mykey
 ';aws ec2 delete-key-pair --key-name mykey
 "
-source /root/sreMsaProvision/config.sh
+source /root/config.sh
