@@ -19,9 +19,25 @@ RUN chmod 700 /root/.ssh
 
 RUN echo 'root:password' | chpasswd
 
+# ssh 공개키 복사 및 root authorized_keys 등록
+COPY ssh/id_rsa.pub /tmp/id_rsa.pub
+RUN mkdir -p /root/.ssh && cat /tmp/id_rsa.pub >> /root/.ssh/authorized_keys && chmod 600 /root/.ssh/authorized_keys
+
+# ubuntu 사용자 추가 및 sudo 권한 부여, 패스워드 설정, 비번 없이 sudo 가능하게 설정
+RUN apt-get update && apt-get install -y sudo \
+    && useradd -m -s /bin/bash ubuntu \
+    && echo 'ubuntu:password' | chpasswd \
+    && usermod -aG sudo ubuntu \
+    && echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+# ubuntu authorized_keys 등록 (ubuntu 생성 이후)
+RUN mkdir -p /home/ubuntu/.ssh && cat /tmp/id_rsa.pub >> /home/ubuntu/.ssh/authorized_keys && chmod 600 /home/ubuntu/.ssh/authorized_keys && chown -R ubuntu:ubuntu /home/ubuntu/.ssh
+
 # SSH 설정 변경
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
+RUN sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+RUN sed -i 's/#AuthorizedKeysFile/AuthorizedKeysFile/' /etc/ssh/sshd_config
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 
 # SSH 포트 노출
