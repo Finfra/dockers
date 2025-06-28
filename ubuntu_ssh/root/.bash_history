@@ -37,3 +37,5 @@ su - ubuntu
 exit
 멱ㅓ
 exit
+cat .ssh/authorized_keys 
+exit
