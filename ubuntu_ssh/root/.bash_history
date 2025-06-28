@@ -33,3 +33,7 @@ cat /etc/*lease
 python3 --version
 ./setup.sh 
 exit
+su - ubuntu
+exit
+멱ㅓ
+exit

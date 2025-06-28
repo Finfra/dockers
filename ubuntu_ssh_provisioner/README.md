@@ -1,5 +1,6 @@
 # Ubuntu SSH Provisioner
 * 이 디렉토리는 Ubuntu 기반의 SSH 프로비저닝 환경을 위한 docker-compose 설정 및 관련 파일을 포함하고 있습니다.
+* Ansible, Terraform 등 자동화 도구
 * Coding Agent의 작동 편의성을 증가시키기 위해 ssh지원함. 
 
 ## 구성
