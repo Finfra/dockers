@@ -9,3 +9,6 @@ root/.viminfo
 root/.bash_history
 root/.Xauthority
 root/config.sh
+root/.cursor-server
+root/.vscode-server
+root/.dotnet
