@@ -13,7 +13,7 @@ fi
 
 # DF_PATH 환경변수 확인 및 존재 여부 체크
 if [ -z "${DF_PATH}" ]; then
-    echo "오류: DF_PATH 환경변수가 설정되지 않음" >&2
+    echo "오류: DF_PATH 환경변수가 설정되지 않음. DF_PATH에는 Terraform코드 등이 있어야 함." >&2
     read -p "df 폴더가 정의되지 않았습니다. 경로를 입력하세요: " DF_PATH
 elif [ ! -d "${DF_PATH}" ]; then
     echo "오류: DF_PATH='${DF_PATH}' 디렉토리가 존재하지 않음" >&2

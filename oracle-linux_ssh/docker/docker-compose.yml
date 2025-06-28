@@ -9,6 +9,7 @@ services:
     volumes:
       - ../root:/root
       - ~/df:/df
+      - ~/_git:/git
     environment:
       - TZ=Asia/Seoul
     tty: true 
