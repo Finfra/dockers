@@ -46,7 +46,29 @@
 - 포트 매핑:
   - 호스트 `12222` → 컨테이너 `22` (SSH 접속 포트)
 
-## 참고
+## SSH 키 설정 및 참고
 
-- SSH 키 및 비밀번호 등 민감 정보는 별도의 보안된 경로에 보관하세요.
-- 필요에 따라 `docker-compose.yml` 설정을 수정하여 포트, 사용자, 볼륨 등을 조정할 수 있습니다.
+- root 계정과 ubuntu 계정의 SSH 키 설정 상태가 다를 수 있습니다.
+  - root 계정은 `../root` 디렉토리 내의 `authorized_keys` 파일을 사용합니다.
+  - ubuntu 계정은 기본적으로 `authorized_keys`가 설정되어 있지 않을 수 있습니다.
+- SSH 접속 시 키 인증을 위해서는 각 계정의 `~/.ssh/authorized_keys`에 공개키가 등록되어 있어야 합니다.
+- 공개키를 등록하는 방법 예시:
+  - `ssh-copy-id -i ssh/id_rsa.pub root@localhost -p 12222`
+  - 또는 컨테이너 내 `/root/.ssh/authorized_keys` 파일에 직접 공개키를 추가
+- 보안상 민감한 키 파일은 안전한 경로에 보관하고, 권한 설정에 주의하세요.
+
+## 동작 확인
+
+- 컨테이너가 정상 실행 중인지 확인합니다.
+  ```bash
+  cd docker
+  docker-compose ps
+  ```
+- SSH 접속 테스트 예시:
+  ```bash
+  ssh -i ssh/id_rsa root@localhost -p 12222 hostname
+  ssh -i ssh/id_rsa ubuntu@localhost -p 12222 hostname
+  
+  ```
+  - 정상적으로 컨테이너 호스트명(`u1`)이 출력되면 SSH 접속이 성공한 것입니다.
+  - 다른 계정(예: ubuntu)도 동일한 방식으로 접속 테스트할 수 있습니다.
