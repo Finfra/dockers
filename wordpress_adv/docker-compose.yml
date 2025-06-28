@@ -1,7 +1,8 @@
 services:
   # 데이터베이스 서비스
   wpDb1:
-    image: wordpress_mysql
+    image: mariadb:10.11
+    platform: linux/x86_64
     container_name: wpDb1
     hostname: wpdb1
     domainname: local
@@ -18,7 +19,7 @@ services:
     networks:
       - wnet
     ports:
-      - "3306:3306"
+      - "3307:3306"
 
   # WordPress 서비스
   wp1:
