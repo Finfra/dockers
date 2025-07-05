@@ -112,12 +112,25 @@ docker-compose up -d
 - MySQL: wpdb1
 - Database Name: wordpress
 - Database User: wordpress
+## 응용 프로그램 비번 얻기
+1. https://localhost:8443/wp-admin/users.php 접속
+2. 유저 속성에서 "응용 프로그램 비밀번호" 생성
+  - ![](./img/wp_ssh_pw.png)
 
-## SSL 인증서
+# SSL 인증서
 
 ## ~/.ssh/ssl에 SSL 인증서 생성 및 Keychain 등록
-개발 환경에서는 자체 서명된 SSL 인증서를 사용합니다. 브라우저에서 보안 경고가 표시될 수 있으며, 이는 개발 환경에서는 무시해도 됩니다.
+* generate_ssl.sh 스크립트를 사용하여 SSL 인증서를 생성하고 macOS Keychain에 등록합니다.
+* 개발 환경에서는 자체 서명된 SSL 인증서를 사용합니다. 브라우저에서 보안 경고가 표시될 수 있으며, 이는 개발 환경에서는 무시해도 됩니다.
+### 브라우저에서 보안 경고 안뜨게
+* 인증서 설정 ( ~/.ssh/ssl/server-cert.pem )을 Keychain에 등록하여 브라우저에서 보안 경고를 제거할 수 있습니다.
+  - ![](./img/ssl_setting1.png)
+* 인증서 속성변경 업데이트 
+  - ![](./img/ssl_setting2.png)
 
+
+
+## cf. ssl 인증서 생성 및 Keychain 등록 방법
 ### 1. 디렉토리 생성
 ```bash
 mkdir -p ~/.ssh/ssl
