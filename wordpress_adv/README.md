@@ -30,9 +30,16 @@ PC나 Mac 환경에서는 WordPress 개발을 위해 Local by Flywheel, WP Studi
     # =     docker-compose up -d
 
     ```
+3. WordPreess 접속
+    ```
+      open http://localhost:8080
+    ```
+4. WordPress Admin 접속
+    ```
+      open http://localhost:8080/wp-admin
+    ```
 
-
-3. 컨테이너 중지:
+5. 컨테이너 중지:
     ```bash
     docker-compose down
     ```
