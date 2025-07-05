@@ -15,9 +15,9 @@ PC나 Mac 환경에서는 WordPress 개발을 위해 Local by Flywheel, WP Studi
 
 ## 설치 및 실행 방법
 
-1. 스크립트 실행 권한 부여:
+1. 모든 데이터 초기화:
     ```bash
-    chmod +x install.sh clear.sh
+    ./clear.sh
     ```
 
 2. 설치 스크립트 실행:
@@ -27,19 +27,12 @@ PC나 Mac 환경에서는 WordPress 개발을 위해 Local by Flywheel, WP Studi
     또는 모든 데이터를 초기화하고 설치:
     ```bash
     ./install.sh --clear
+    # =     docker-compose up -d
+
     ```
 
-3. 모든 데이터 초기화:
-    ```bash
-    ./clear.sh
-    ```
 
-4. 컨테이너 실행:
-    ```bash
-    docker-compose up -d
-    ```
-
-5. 컨테이너 중지:
+3. 컨테이너 중지:
     ```bash
     docker-compose down
     ```
