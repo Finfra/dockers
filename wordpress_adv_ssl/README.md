@@ -18,13 +18,16 @@ git clone <repository-url>
 cd wordpress_adv_ssl
 ```
 
-2. SSL 인증서 생성:
+2. SSL 인증서 생성 혹은 Clear:
 ```bash
 ./generate_ssl.sh
+# 또는 (두번째 실행시)
+sudo ./clear.sh
 ```
 
 3. 컨테이너 시작:
 ```bash
+sudo chown -R $(whoami) data # Linux일경우.
 ./install.sh
 ```
 

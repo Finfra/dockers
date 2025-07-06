@@ -37,26 +37,36 @@ fi
 if [ ! -f "data/init/setting.ok" ]; then
     echo "setting.ok 파일이 없습니다. 초기 설정을 진행합니다..."
 
-# .env 파일 생성
-echo "Creating .env file..."
-cat > .env << EOF
-# MySQL 설정
-DB_ROOT_PASSWORD=${BASIC_PW}
-DB_NAME=wordpress
-DB_USER=wordpress
-DB_PASSWORD=${BASIC_PW}
+    # 1. 기본 키 목록 정의
+    declare -A default_env=(
+        [DB_ROOT_PASSWORD]="${BASIC_PW}"
+        [DB_NAME]="wordpress"
+        [DB_USER]="wordpress"
+        [DB_PASSWORD]="${BASIC_PW}"
+        [WORDPRESS_DB_HOST]="wpDb1"
+        [WORDPRESS_DB_USER]="wordpress"
+        [WORDPRESS_DB_PASSWORD]="${BASIC_PW}"
+        [WORDPRESS_DB_NAME]="wordpress"
+        [WORDPRESS_TITLE]="MySite"
+        [WORDPRESS_ADMIN_USER]="admin"
+        [WORDPRESS_ADMIN_PASSWORD]="${BASIC_PW}"
+        [WORDPRESS_ADMIN_EMAIL]="jgnam73@hotmail.com"
+        [WORDPRESS_URL]="https://$(cat /etc/hostname):8443"
+    )
 
-# WordPress 설정
-WORDPRESS_DB_HOST=wpDb1
-WORDPRESS_DB_USER=wordpress
-WORDPRESS_DB_PASSWORD=${BASIC_PW}
-WORDPRESS_DB_NAME=wordpress
-WORDPRESS_TITLE="MySite"
-WORDPRESS_ADMIN_USER=admin
-WORDPRESS_ADMIN_PASSWORD=${BASIC_PW}
-WORDPRESS_ADMIN_EMAIL=jgnam73@hotmail.com
-WORDPRESS_URL=https://localhost:8443
-EOF
+    # 2. env_new 있으면 우선 사용
+    echo "env_new 파일을 감지했습니다. 병합하여 .env 생성..."
+    cp /dev/null .env
+    if [ -f "./env_new" ]; then
+        cat ./env_new >> .env
+    fi
+
+    # 3. 누락된 키들만 .env에 추가
+    for key in "${!default_env[@]}"; do
+        if ! grep -q "^${key}=" .env; then
+            echo "${key}=${default_env[$key]}" >> .env
+        fi
+    done
     # .env 파일 복사 wordpress 폴더에 복사
     cp .env wordpress/
     # 필요한 디렉토리 생성
@@ -65,8 +75,16 @@ EOF
 
     # WordPress 설정 파일 복사
     echo "Copying wp-config.php..."
-    cp wp-config.php data/contents/wp-config.php
-    sed -i '' "s/wordpress_password/${BASIC_PW}/g" data/contents/wp-config.php
+    TARGET_FILE="wordpress/wp-config.php"
+    cp wp-config.php $TARGET_FILE
+    if [[ "$(uname)" == "Darwin" ]]; then
+        # macOS
+        sed -i '' "s|wordpress_password|${BASIC_PW}|g" "$TARGET_FILE"
+    else
+        # Linux (Ubuntu 등)
+        sed -i "s|wordpress_password|${BASIC_PW}|g" "$TARGET_FILE"
+    fi
+
 
     # .env 파일을 data/init으로 복사
     echo "Copying .env file to data/init..."
@@ -74,7 +92,10 @@ EOF
 
     # x64 환경인 경우 docker-compose.yml 수정
     if [ "$(uname -m)" = "x86_64" ]; then
-        sed -i '' 's/platform: linux\/arm64\/v8//g' docker-compose.yml
+        if [[ "$(uname)" == "Darwin" ]]; then
+            # macOS
+            sed -i '' 's/platform: linux\/arm64\/v8//g' docker-compose.yml
+        fi
     fi
 
     # 초기화 스크립트 복사
@@ -120,10 +141,11 @@ echo -e "\n\033[1;34mWordPress Access Information:\033[0m"
 echo "URL: https://localhost:8443"
 echo "Admin URL: https://localhost:8443/wp-admin"
 echo "Admin Username: admin"
+echo "User email: $WORDPRESS_ADMIN_EMAIL"
 echo "Admin Password: ${BASIC_PW}"
 echo ""
 echo -e "\033[1;34mDatabase Information:\033[0m"
-echo "Host: wpdb1"
+echo "Host: wpDb1"
 echo "Database: wordpress"
 echo "Username: wordpress"
 echo "Password: ${BASIC_PW}"
