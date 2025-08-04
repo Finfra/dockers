@@ -31,8 +31,18 @@ n8n/.env
 wordpress_adv_ssl/data/
 wordpress_adv_ssl/.env
 wordpress_adv_ssl/wordpress/.env
+
+# SSL 인증서 (보안상 git에 커밋 금지)
 ~/.ssh/ssl/
 !~/.ssh/ssl/README.md
+*.pem
+*.key
+*.crt
+*.csr
+**/*.pem
+**/*.key
+**/*.crt
+**/*.csr
 
 # for Claude Code
 .claude/
