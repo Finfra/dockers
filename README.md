@@ -1,6 +1,14 @@
-# Finfra/dockers - 소개
+# Finfra/dockers - Docker 컨테이너 스크립트 모음집
 
-이 Git 저장소는 프로젝트에서 사용하는 Docker 스크립트 모음입니다.
+이 프로젝트는 다양한 웹 서비스, 개발 환경, 데이터베이스, 데이터 사이언스 도구들을 Docker로 구성하여 빠른 개발 환경 구축을 지원하는 Docker 컨테이너 스크립트 모음집입니다.
+
+## 🚀 주요 특징
+
+- **자동화된 환경 구축**: 각 서비스별 자동 설치 스크립트 제공
+- **표준화된 문서**: 모든 서비스의 일관된 한국어 문서 제공
+- **보안 강화**: SSL 인증서 자동 생성 및 관리
+- **의존성 관리**: 서비스 간 의존성 자동 처리
+- **포트 충돌 방지**: 각 서비스별 고유 포트 할당
 
 ## Docker 스크립트 목록
 
@@ -56,25 +64,59 @@
 
 
 
-## 일반적인 사용법
+## 🛠️ 일반적인 사용법
 
-각 디렉토리에는 해당 서비스의 상세한 README.md 파일이 있습니다. 일반적인 패턴은 다음과 같습니다:
+각 디렉토리에는 해당 서비스의 상세한 README.md 파일이 있습니다. 
 
-### 빌드
+### 기본 패턴
 ```bash
+# 1. 서비스 디렉토리로 이동
+cd [서비스명]/
+
+# 2. Docker 이미지 빌드
 docker build --rm -t [이미지명] .
-```
 
-### 실행
-```bash
-docker run -it --name [컨테이너명] [옵션] [이미지명]
-```
+# 3. 컨테이너 실행
+docker run -it --name [컨테이너명] [포트옵션] [이미지명]
 
-### 정리
-```bash
+# 4. 서비스 테스트
+curl localhost:[포트번호]
+
+# 5. 정리
 docker rm [컨테이너명] -f
 docker rmi [이미지명]
 ```
+
+### 자동화 스크립트 사용 (권장)
+많은 서비스에서 자동화 스크립트를 제공합니다:
+```bash
+./install.sh      # 자동 설치
+./build-all.sh    # 의존성 포함 빌드
+./generate-ssl.sh # SSL 인증서 생성
+```
+
+## ⚠️ 특별한 요구사항
+
+### Spring Boot Gradle
+JDK 17 이미지가 먼저 빌드되어야 합니다:
+```bash
+cd jdk17 && docker build -t nowage/jdk:17 .
+cd ../springBoot_gradle && ./build-all.sh
+```
+
+### Ubuntu Spark
+Spark 바이너리 파일이 필요합니다:
+- `spark-3.4.4-bin-hadoop3.tgz` 파일을 `_prgs/` 디렉토리에 배치
+
+### SSL 인증서 (apacheSsl, wordpress_adv_ssl)
+SSL 인증서 생성:
+```bash
+./apacheSsl/generate-ssl.sh  # 자동 생성 (권장)
+```
+
+## 🔧 문제 해결
+
+자세한 문제 해결 방법은 각 서비스의 README.md 파일과 Issue.md 파일을 참조하세요.
 
 ## 버그 리포트
 
