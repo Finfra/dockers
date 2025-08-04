@@ -55,8 +55,8 @@ apt-get install -y default-jdk
 #apt-get install -y --no-install-recommends java-common oracle-java8-installer
 
 ## Uncompress
-tar xzvf /_prgs/spark-2.2.0-bin-hadoop2.7.tgz
-mv spark-2.2.0-bin-hadoop2.7/ spark
+tar xzvf /_prgs/spark-3.4.4-bin-hadoop3.tgz
+mv spark-3.4.4-bin-hadoop3/ spark
 mv spark/ /usr/lib/
 cp /usr/lib/spark/conf/spark-env.sh.template /usr/lib/spark/conf/spark-env.sh
 echo "\nJAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/" >>  /usr/lib/spark/conf/spark-env.sh

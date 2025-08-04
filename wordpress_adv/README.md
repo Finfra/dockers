@@ -15,6 +15,20 @@ PC나 Mac 환경에서는 WordPress 개발을 위해 Local by Flywheel, WP Studi
 
 ## 설치 및 실행 방법
 
+### ⚠️ 사전 준비: 환경 변수 파일 설정
+
+먼저 환경 변수 파일을 생성해야 합니다:
+
+```bash
+# .env.example 파일을 .env로 복사
+cp .env.example .env
+
+# .env 파일을 편집하여 실제 값으로 수정
+vim .env  # 또는 원하는 에디터 사용
+```
+
+### 실행 단계
+
 1. 모든 데이터 초기화:
     ```bash
     ./clear.sh
@@ -28,7 +42,6 @@ PC나 Mac 환경에서는 WordPress 개발을 위해 Local by Flywheel, WP Studi
     ```bash
     ./install.sh --clear
     # =     docker-compose up -d
-
     ```
 3. WordPreess 접속
     ```

@@ -12,18 +12,41 @@
 
 ## 설치 및 실행 방법
 
+### ⚠️ 사전 준비
+
+#### 1. 환경 변수 파일 설정
+```bash
+# .env.example 파일을 .env로 복사
+cp .env.example .env
+
+# .env 파일을 편집하여 실제 값으로 수정
+vim .env  # 또는 원하는 에디터 사용
+```
+
+#### 2. SSL 인증서 생성
+apacheSsl 프로젝트의 스크립트를 사용하거나 수동으로 생성할 수 있습니다:
+
+```bash
+# apacheSsl 프로젝트의 자동 스크립트 사용 (권장)
+../apacheSsl/generate-ssl.sh
+
+# 또는 수동 생성
+mkdir -p ~/.ssh/ssl
+openssl req -x509 -newkey rsa:4096 -sha256 -days 365 -nodes \
+  -keyout ~/.ssh/ssl/server-key.pem \
+  -out ~/.ssh/ssl/server-cert.pem \
+  -subj "/CN=localhost"
+```
+
+### 실행 단계
+
 1. 저장소 클론:
 ```bash
 git clone <repository-url>
 cd wordpress_adv_ssl
 ```
 
-2. SSL 인증서 생성:
-```bash
-./generate_ssl.sh
-```
-
-3. 컨테이너 시작:
+2. 컨테이너 시작:
 ```bash
 ./install.sh
 ```
