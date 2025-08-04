@@ -44,6 +44,16 @@ wordpress_adv_ssl/wordpress/.env
 **/*.crt
 **/*.csr
 
+# 대용량 압축 파일 (Git LFS 또는 별도 다운로드 필요)
+*.tar.gz
+*.tgz
+*.zip
+*.7z
+**/*.tar.gz
+**/*.tgz
+**/*.zip
+**/*.7z
+
 # for Claude Code
 .claude/
 **/.claude/
