@@ -105,8 +105,17 @@ cd ../springBoot_gradle && ./build-all.sh
 ```
 
 ### Ubuntu Spark
-Spark 바이너리 파일이 필요합니다:
-- `spark-3.4.4-bin-hadoop3.tgz` 파일을 `_prgs/` 디렉토리에 배치
+Spark와 Hadoop 바이너리 파일을 수동으로 다운로드해야 합니다:
+```bash
+cd ubuntu_spark/_prgs/
+# Apache Spark 다운로드
+wget https://archive.apache.org/dist/spark/spark-3.4.4/spark-3.4.4-bin-hadoop3.tgz
+
+# Apache Hadoop 다운로드 
+wget https://archive.apache.org/dist/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz
+```
+
+**참고**: 이 파일들은 용량이 커서 git 저장소에 포함되지 않습니다.
 
 ### SSL 인증서 (apacheSsl, wordpress_adv_ssl)
 SSL 인증서 생성:
