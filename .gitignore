@@ -1,6 +1,14 @@
 log.txt
+
+# for nPTiR (프로젝트 로컬 문서·산출물)
 CLAUDE.md
 Issue.md
+Harness.md
+noteForHuman.md
+PROMPTS.md
+_doc_work
+_doc_arch
+
 # for Mac
 .DS_Store
 Icon
@@ -57,3 +65,9 @@ wordpress_adv_ssl/wordpress/.env
 # for Claude Code
 .claude/
 **/.claude/
+_doc_work/z_htm/
+
+# for Claude Code container (소스 마운트 폴더 — 코드 커밋 제외, 폴더는 유지)
+claude/df/*
+!claude/df/.gitkeep
+claude/.env

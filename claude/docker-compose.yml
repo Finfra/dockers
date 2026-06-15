@@ -1,0 +1,27 @@
+name: ${COMPOSE_PROJECT_NAME:-claude_code}
+
+services:
+  claude:
+    image: claude-code-node24
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        USER_UID: ${USER_UID:-1000}
+        USER_GID: ${USER_GID:-1000}
+    container_name: ${CLAUDE_CONTAINER_NAME:-claude}
+    restart: unless-stopped
+    environment:
+      - TZ=${TZ:-Asia/Seoul}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+    volumes:
+      # 소스 폴더: 호스트 ./df → 컨테이너 /home/users/df (.gitignore 연동)
+      - ${SOURCE_DIR:-./df}:/home/users/df
+      # 인증·설정 영속 (claude login 결과 유지)
+      - claude-home:/home/ubuntu
+    working_dir: /home/users/df
+    tty: true
+    stdin_open: true
+
+volumes:
+  claude-home:

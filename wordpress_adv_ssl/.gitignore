@@ -2,4 +2,12 @@
 secrets/
 mysql/
 contents/
-*.log 
+*.log
+
+# Claude 관련 파일/폴더
+.claude/
+claude_session/
+claude_cache/
+.claude_history
+claude.log
+claude_*.log 
