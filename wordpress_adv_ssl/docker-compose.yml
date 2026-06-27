@@ -19,7 +19,7 @@ services:
     networks:
       - wnet
     ports:
-      - "3307:3306"
+      - "3308:3306"
 
   # WordPress 서비스
   wp1:
@@ -33,7 +33,7 @@ services:
     hostname: wp1
     domainname: local
     ports:
-      - "8080:80"
+      - "8084:80"
       - "8443:443"
     restart: always
     environment:

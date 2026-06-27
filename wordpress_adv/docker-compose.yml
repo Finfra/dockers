@@ -33,7 +33,7 @@ services:
     hostname: wp1
     domainname: local
     ports:
-      - "8080:80"
+      - "8083:80"
     restart: always
     environment:
       WORDPRESS_DB_HOST: wpdb1

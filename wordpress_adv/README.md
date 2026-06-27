@@ -36,20 +36,20 @@ vim .env  # 또는 원하는 에디터 사용
 
 2. 설치 스크립트 실행:
     ```bash
-    ./install.sh
+    ./start.sh
     ```
     또는 모든 데이터를 초기화하고 설치:
     ```bash
-    ./install.sh --clear
+    ./start.sh --clear
     # =     docker-compose up -d
     ```
 3. WordPreess 접속
     ```
-      open http://localhost:8080
+      open http://localhost:8083
     ```
 4. WordPress Admin 접속
     ```
-      open http://localhost:8080/wp-admin
+      open http://localhost:8083/wp-admin
     ```
 
 5. 컨테이너 중지:
@@ -81,7 +81,7 @@ vim .env  # 또는 원하는 에디터 사용
 - **wp1**: 커스텀 WordPress
     - 빌드: `./wordpress/Dockerfile`
     - 볼륨: `./data/contents:/var/www/html`, `./data/init:/data/init`
-    - 포트: `8080:80` (호스트:컨테이너)
+    - 포트: `8083:80` (호스트:컨테이너)
     - 환경 변수: `WORDPRESS_DB_HOST`, `WORDPRESS_DB_USER`, `WORDPRESS_DB_PASSWORD`, `WORDPRESS_DB_NAME` 등
 - **네트워크**: `wnet` (bridge)
 
@@ -104,7 +104,7 @@ DB_ROOT_PASSWORD=your_root_pw
 DB_NAME=wordpress
 DB_USER=wpuser
 DB_PASSWORD=your_db_pw
-WORDPRESS_URL=https://localhost:8080
+WORDPRESS_URL=https://localhost:8083
 WORDPRESS_TITLE=My WP Site
 WORDPRESS_ADMIN_USER=admin
 WORDPRESS_ADMIN_PASSWORD=your_admin_pw
@@ -115,8 +115,8 @@ WORDPRESS_ADMIN_EMAIL=admin@example.com
 
 ## 접속 정보
 
-- WordPress 사이트: [https://localhost:8080](https://localhost:8080)
-- WordPress 관리자: [https://localhost:8080/wp-admin](https://localhost:8080/wp-admin)
+- WordPress 사이트: [https://localhost:8083](https://localhost:8083)
+- WordPress 관리자: [https://localhost:8083/wp-admin](https://localhost:8083/wp-admin)
 - MariaDB: `localhost:3307` (root/DB_USER 계정)
 
 ---
@@ -141,7 +141,7 @@ WORDPRESS_ADMIN_EMAIL=admin@example.com
 - **Mac/ARM 환경에서 MariaDB 컨테이너가 실행되지 않을 경우**  
   → Rosetta 환경에서 Docker를 실행하거나, x86_64 기반 Docker Desktop을 사용하세요.
 - **포트 충돌**  
-  → 8080, 3307 포트가 이미 사용 중이면 docker-compose.yml에서 포트를 변경하세요.
+  → 8083, 3307 포트가 이미 사용 중이면 docker-compose.yml에서 포트를 변경하세요.
 - **.env 파일 누락**  
   → `.env` 파일이 없으면 컨테이너가 정상적으로 동작하지 않습니다.
 

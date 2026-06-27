@@ -7,7 +7,7 @@ set -e
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 echo "Stopping and removing Docker containers and volumes..."
-docker-compose --env-file .env down --volumes 2>/dev/null || true
+docker compose --env-file .env down --volumes 2>/dev/null || true
 
 # Docker 이미지 제거는 TLS 오류 발생 가능성으로 인해 생략
 # 대신 로컬 이미지만 정리
