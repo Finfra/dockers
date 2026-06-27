@@ -59,9 +59,9 @@ echo ""
 echo "🧪 서비스 테스트 중..."
 sleep 2
 
-if curl -f http://127.0.0.1:8080 > /dev/null 2>&1; then
+if curl -f http://127.0.0.1:8081 > /dev/null 2>&1; then
     echo "✅ Spring Boot 애플리케이션이 정상적으로 실행 중입니다!"
-    echo "🌐 접속 URL: http://localhost:8080"
+    echo "🌐 접속 URL: http://localhost:8081"
 else
     echo "❌ Spring Boot 애플리케이션 테스트 실패"
     echo "📋 컨테이너 로그를 확인하시기 바랍니다:"
@@ -72,6 +72,6 @@ fi
 echo ""
 echo "🎉 전체 빌드 및 실행이 완료되었습니다!"
 echo "📝 유용한 명령어:"
-echo "   - 애플리케이션 테스트: curl http://127.0.0.1:8080"
+echo "   - 애플리케이션 테스트: curl http://127.0.0.1:8081"
 echo "   - 컨테이너 로그 보기: docker logs sb1"
-echo "   - 컨테이너 정지: docker-compose down"
+echo "   - 컨테이너 정지: docker compose down"

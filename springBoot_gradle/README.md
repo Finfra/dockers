@@ -15,7 +15,7 @@ Spring Boot 애플리케이션을 Gradle로 빌드하고 실행하는 Docker 이
 종속성 이미지부터 자동으로 빌드하는 스크립트를 사용하세요:
 
 ```bash
-./build-all.sh
+./start.sh
 ```
 
 이 스크립트는 다음 작업을 자동으로 수행합니다:
@@ -45,16 +45,16 @@ cd ../springBoot_gradle
 애플리케이션이 실행된 후 테스트:
 ```bash
 sleep 2
-curl 127.0.0.1:8080
+curl 127.0.0.1:8081
 ```
 
 ## 포트 정보
-- **8080**: Spring Boot 애플리케이션
+- **8081**: Spring Boot 애플리케이션 (호스트 8081 → 컨테이너 8080)
 
 ## 접속 방법
 브라우저에서 다음 주소로 접속:
 ```
-http://localhost:8080
+http://localhost:8081
 ```
 
 ## 정리
@@ -87,7 +87,7 @@ docker build -t nowage/jdk:17 .
 # 8080 포트를 사용하는 프로세스 확인
 lsof -i :8080
 
-# docker-compose.yaml에서 포트 변경 (예: 8081:8080)
+# docker-compose.yml에서 포트 변경 (예: 8081:8080)
 ```
 
 ## 사용된 기술
