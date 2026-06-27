@@ -2,7 +2,6 @@ log.txt
 
 # for nPTiR (프로젝트 로컬 문서·산출물)
 CLAUDE.md
-Issue.md
 Harness.md
 noteForHuman.md
 PROMPTS.md
@@ -25,6 +24,9 @@ data/contents/
 data/secrets/
 data/init/
 data/wpDb1/
+# 패턴 표준: 실제 .env 는 커밋 금지, .env.sample 만 공유
+*/.env
+!*/.env.sample
 
 # for Ollama WebUI
 ollamaWebui/webui/

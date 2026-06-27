@@ -51,7 +51,7 @@ EOF
 fi
 
 # 기존 컨테이너 중지 및 제거
-docker-compose down --remove-orphans
+docker compose down --remove-orphans
 
-# docker-compose 실행
-docker-compose up -d 
+# docker compose 실행
+docker compose up -d 

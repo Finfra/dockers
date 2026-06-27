@@ -10,10 +10,10 @@ docker network create onet 2>/dev/null || true
 # GPU 확인
 if command -v nvidia-smi &> /dev/null; then
     echo "NVIDIA GPU가 감지되었습니다. GPU 모드로 실행합니다."
-    docker-compose -f docker-compose.gpu.yml up -d
+    docker compose -f docker compose.gpu.yml up -d
 else
     echo "NVIDIA GPU가 감지되지 않았습니다. CPU 모드로 실행합니다."
-    docker-compose up -d
+    docker compose up -d
 fi
 
 # 서비스 확인

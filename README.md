@@ -87,13 +87,19 @@ docker rm [컨테이너명] -f
 docker rmi [이미지명]
 ```
 
-### 자동화 스크립트 사용 (권장)
-많은 서비스에서 자동화 스크립트를 제공합니다:
+### 표준 스크립트 (패턴별)
+모든 서비스는 2종 폴더 패턴 중 하나를 따릅니다 (설계: `_doc_arch/patterns/`).
+
 ```bash
-./install.sh      # 자동 설치
-./build-all.sh    # 의존성 포함 빌드
-./generate-ssl.sh # SSL 인증서 생성
+# docker-run 패턴 (단일 이미지: nginx, mysql, ubuntu_* 등)
+./run.sh          # build + run + test 래퍼
+
+# docker-compose 패턴 (다중 컨테이너: n8n, wordpress_adv, ollamaWebui 등)
+./start.sh        # env 생성 + build + up -d + 헬스체크
+./clear.sh        # down --volumes + data 정리
 ```
+
+> 신규 서비스는 `_doc_arch/patterns/{docker-run|docker-compose}/template/` 를 복사해 시작합니다.
 
 ## ⚠️ 특별한 요구사항
 
@@ -101,7 +107,7 @@ docker rmi [이미지명]
 JDK 17 이미지가 먼저 빌드되어야 합니다:
 ```bash
 cd jdk17 && docker build -t nowage/jdk:17 .
-cd ../springBoot_gradle && ./build-all.sh
+cd ../springBoot_gradle && ./start.sh
 ```
 
 ### Ubuntu Spark

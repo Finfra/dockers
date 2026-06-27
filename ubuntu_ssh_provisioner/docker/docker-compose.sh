@@ -27,4 +27,4 @@ echo DF_PATH=$DF_PATH > $SCRIPT_DIR/.env
 
 # 작업 디렉토리 이동 및 docker-compose 실행
 cd "$SCRIPT_DIR"
-docker-compose up -d
+docker compose up -d
