@@ -7,7 +7,7 @@ date: 2026-06-26
 # Issue Management
 * Issue HWM: 14
 * 설계·해결 기록: `_doc_arch/known-issues-resolution.md` (구 Issue.md, 2024-08 8/8 해결 완료)
-* Update checkpoint:
+* Checkpoints:
     - {git-hash} {date}
 
 # 🤔 결정사항
