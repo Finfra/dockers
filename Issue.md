@@ -5,7 +5,7 @@ date: 2026-06-26
 ---
 
 # Issue Management
-* Issue HWM: 14
+* Issue HWM: 15
 * 설계·해결 기록: `_doc_arch/known-issues-resolution.md` (구 Issue.md, 2024-08 8/8 해결 완료)
 * Checkpoints:
     - {git-hash} {date}
@@ -25,6 +25,12 @@ date: 2026-06-26
 # ✅ 완료
 
 > 상세 해결 내역은 `_doc_arch/known-issues-resolution.md` 참조.
+
+## Issue15: nginx·nginx2 이미지 nginx 버전 점검·보안 업데이트 (해결: 2026-07-16) ✅
+* 배경: 2026-07 기준 nginx stable `1.30.3` / mainline `1.31.2`. `1.27` 이하는 EOL — 2026년 보안 픽스(CVE-2026-42530 HTTP/3 UAF, CVE-2026-42945 "NGINX Rift" 등) 미수혜
+* 대상: `nginx/`·`nginx2/` — `FROM ubuntu`(무태그) + `install.sh` 의 apt nginx 라 배포판 버전에 종속·무핀 상태
+* 해결 결과: `FROM ubuntu` → Docker Hub 공식 `FROM nginx:1.30.3` 로 교체(이미지명 변경만으로 해결). apt nginx 설치 불필요해져 `install.sh` 삭제. 빌드+컨테이너 실행+`nginx -v`+curl 검증 통과 (양쪽 `nginx/1.30.3` 확인)
+* commit: 15ce829
 
 ## Issue14: 잔여 표준화 (start.sh CMD 정리) (해결: 2026-06-27) ✅
 * depends: Issue9
