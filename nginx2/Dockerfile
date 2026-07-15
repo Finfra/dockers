@@ -1,8 +1,3 @@
-FROM ubuntu
-COPY ./install.sh /
-RUN chmod 755 /install.sh
-RUN /install.sh
+FROM nginx:1.30.3
 EXPOSE 80
-STOPSIGNAL SIGQUIT
-CMD [ "nginx", "-g", "daemon off;"]
 
