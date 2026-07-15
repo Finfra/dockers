@@ -1,5 +1,5 @@
 # Nginx Docker 이미지
-Docker용 Nginx 설치 이미지입니다.
+Docker Hub 공식 `nginx:1.30.3` 이미지를 기반으로 하는 Nginx 웹 서버 이미지입니다.
 
 ## 빌드 및 실행
 

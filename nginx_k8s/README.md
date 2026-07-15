@@ -1,5 +1,5 @@
-# Nginx2 Docker 이미지
-Docker 및 Kubernetes용 Nginx 설치 이미지입니다.
+# Nginx Kubernetes 테스트 이미지
+Docker Hub 공식 `nginx:1.30.3` 이미지를 기반으로, Docker Hub 푸시·Kubernetes 배포 테스트까지 다루는 예제 이미지입니다. (구 `nginx2` 폴더 — "nginx 버전2"로 오해되기 쉬워 `nginx_k8s`로 이름 변경)
 
 ## 빌드 및 실행
 

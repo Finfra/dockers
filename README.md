@@ -15,8 +15,8 @@
 ### 웹 서비스
 | 이름                     | 설명                                      |
 | ------------------------ | ----------------------------------------- |
-| [nginx](./nginx)         | Ubuntu 기반 Nginx 웹 서버                 |
-| [nginx2](./nginx2)       | Kubernetes용 Nginx 웹 서버                |
+| [nginx](./nginx)         | 공식 Nginx(1.30.3) 웹 서버                |
+| [nginx_k8s](./nginx_k8s) | Kubernetes 배포 테스트용 Nginx 웹 서버    |
 | [apacheSsl](./apacheSsl) | SSL 인증서를 사용한 Apache 웹 서버 테스트 |
 
 ### WordPress
