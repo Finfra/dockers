@@ -1,0 +1,8 @@
+# 호스트 코드 폴더 마운트 override
+# 사용 예 (같은 폴더의 .env 자동 로드):
+#   docker compose -f docker-compose.yml -f docker-compose.code.yml up -d
+# .env 의 MOUNT_CODE_DIR 변수 필요 (ex: MOUNT_CODE_DIR=~/code)
+services:
+  claude:
+    volumes:
+      - ${MOUNT_CODE_DIR}:/home/ubuntu/code

@@ -1,0 +1,66 @@
+name: ${COMPOSE_PROJECT_NAME:-ollama_claude}
+
+services:
+  ollama:
+    image: ollama/ollama
+    container_name: ${OLLAMA_CONTAINER_NAME:-ollama-claude}
+    hostname: ollama
+    restart: unless-stopped
+    environment:
+      - OLLAMA_FLASH_ATTENTION=${OLLAMA_FLASH_ATTENTION:-1}
+      - OLLAMA_KV_CACHE_TYPE=${OLLAMA_KV_CACHE_TYPE:-q8_0}
+      - OLLAMA_NUM_GPU=${OLLAMA_NUM_GPU:-999}
+      - OLLAMA_CONTEXT_LENGTH=${OLLAMA_CONTEXT_LENGTH:-100000}
+      - TZ=${TZ:-Asia/Seoul}
+    ports:
+      - "${OLLAMA_PORT:-11436}:11434"
+    volumes:
+      - ${OLLAMA_MOUNT:-ollama-models}:/root/.ollama
+    entrypoint: >
+      bash -c "
+        /bin/ollama serve &
+        sleep 5 &&
+        ollama pull ${OLLAMA_MODEL} || echo 'WARNING: model pull failed, continuing...' ;
+        wait
+      "
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - claude-ollama
+
+  claude:
+    image: ollama-claude
+    build:
+      context: .
+      dockerfile: Dockerfile.claude
+      args:
+        USER_UID: ${USER_UID:-1000}
+        USER_GID: ${USER_GID:-1000}
+    container_name: ${CLAUDE_CONTAINER_NAME:-claude-code}
+    restart: unless-stopped
+    depends_on:
+      ollama:
+        condition: service_healthy
+    volumes:
+      - claude-home:/home/ubuntu
+    environment:
+      - ANTHROPIC_BASE_URL=http://ollama:11434
+      - ANTHROPIC_AUTH_TOKEN=ollama
+      - ANTHROPIC_MODEL=${OLLAMA_MODEL}
+      - OLLAMA_MODEL=${OLLAMA_MODEL}
+      - CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+      - TZ=${TZ:-Asia/Seoul}
+    networks:
+      - claude-ollama
+
+volumes:
+  claude-home:
+  ollama-models:
+
+networks:
+  claude-ollama:
+    name: ${OLLAMA_NETWORK_NAME:-claude-ollama}
