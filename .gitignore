@@ -74,3 +74,6 @@ _doc_work/z_htm/
 claude/df/*
 !claude/df/.gitkeep
 claude/.env
+
+# issue-map 산출물 (Issue.md 로부터 재생성 — prj1#Issue286)
+Issue_map.htm
