@@ -5,7 +5,7 @@ date: 2026-06-26
 ---
 
 # Issue Management
-* Issue HWM: 15
+* Issue HWM: 16
 * 설계·해결 기록: `_doc_arch/known-issues-resolution.md` (구 Issue.md, 2024-08 8/8 해결 완료)
 * Checkpoints:
     - {git-hash} {date}
@@ -13,6 +13,12 @@ date: 2026-06-26
 # 🤔 결정사항
 
 # 🌱 이슈후보
+
+1. `_doc_arch`/`_doc_work` gitignore 정책 재검토 — 설계 SSOT 변경이 커밋 이력에 남지 않아 이슈 종결 시 commit hash 를 만들 수 없음(Issue16 에서 실제 발생). remote 가 public 이라 단순 추적 전환은 불가 → 별도 private repo 분리·submodule·mirror 등 대안 검토 필요
+2. `ubuntu_spark/README.md`·`CLAUDE.md` 의 Spark 버전 안내를 `install.sh` 기준 `3.4.4` 로 통일 (현재 `2.2.0` 안내대로 받으면 빌드 실패)
+3. `springBoot_gradle/do.sh`·`wordpress_adv_ssl/install.sh` 정리 + `wordpress_adv`/`wordpress_adv_ssl` 의 구 `.env.example` 제거
+4. 폴더 README 6종의 `docker-compose`(v1) 표기를 `docker compose`(v2) 로 정규화
+5. `ubuntu_ssh_provisioner/start.sh` 가 `DF_PATH` 를 공급하도록 수정 (`.env.sample` 추가 또는 `docker/docker-compose.sh` 로 위임)
 
 # 🚧 진행중
 
@@ -25,6 +31,23 @@ date: 2026-06-26
 # ✅ 완료
 
 > 상세 해결 내역은 `_doc_arch/known-issues-resolution.md` 참조.
+
+## Issue16: _doc_arch ↔ 소스코드 정합성 감사 (해결: 2026-07-21) ✅
+* 목적: `_doc_arch/` 영속 설계 문서의 참조 경로·스크립트명·동작 서술이 현재 소스코드와 어긋난 곳(stale)을 전수 검토·교정
+* plan: `_doc_work/z_done/plan/doc-arch-source-audit_plan.md`
+* task: `_doc_work/z_done/tasks/doc-arch-source-audit_task.md`
+* 해결 결과: 대상 8개 문서 전수 대조 → 불일치 **11건** 교정
+    - **폐기 설계 잔존(축4)**: `docker-run/design.md` 의 `nginx2` → `nginx_k8s` rename 반영. Issue14 로 이미 제거된 `mysql/start.sh`·`ubuntu_all/start.sh` FIXME 를 미해결 항목에서 해소 이력으로 이동(Issue14·Issue15 이력 신설)
+    - **동작 서술 불일치(축3)**: `install.sh`(run)·`.env.sample`(compose) 의 "필수 ✅" 를 **조건부 필수**로 강등하고 판정 기준·현재 보유/미보유 폴더를 명시. 베이스 이미지 규정에 공식 이미지 케이스(`FROM nginx:1.30.3`) 추가 및 무태그 `FROM ubuntu` 금지 명문화
+    - **정규화 범위 과장 교정**: "`docker compose`(v2) 전 스크립트 정규화" → 실행 스크립트 한정임을 명시. README 6종 v1 잔존을 `🔧 [FIXME]` 등재
+    - **과거 기록 문서(축2)**: `known-issues-resolution.md` 상단에 현행 표준 안내 blockquote 추가(`.env.example`→`.env.sample`, `build-all.sh`→`start.sh`) — 당시 서술은 보존
+    - **참조 대상 부재(축1)**: `project-purpose.md`·`patterns/README.md` 가 참조하던 루트 `README.md` "포트 사용 현황" 표가 실제로는 `CLAUDE.md` 에만 존재 → 참조처 교정 + 인수인계 관점 `🔧 [FIXME]` 등재
+    - **감사 중 신규 발견**: `ubuntu_spark/README.md`·`CLAUDE.md` 가 구 버전 `spark-2.2.0-bin-hadoop2.7.tgz` 를 안내하나 `install.sh:58` 은 `3.4.4` 요구 → 안내대로 받으면 빌드 실패. `known-issues-resolution.md` 에 `🔧 [FIXME]` 등재. `ubuntu_ssh_provisioner/start.sh` 가 `${DF_PATH}` 미공급 상태로 compose 호출하는 결함도 함께 등재
+    - 사후 검증: `_doc_arch/` 참조 경로 재-grep 완료. 잔여 MISS 는 전부 과거 이력 서술(`build-all.sh`, `docker-compose.yaml`)로 의도된 기록임을 확인
+    - 미해결 마커 총 10건 부착 (`🚧 [TODO]` 1 · `🔧 [FIXME]` 7 · `🗑️ [REMOVE]` 2)
+* commit: **없음** — `_doc_arch/`·`_doc_work/` 가 본 repo `.gitignore` 대상(9행·8행)이라 커밋 불가. remote 가 public(`git@github.com:Finfra/dockers.git`)이므로 `.gitignore` 수정·`git add -f` 강제 추적은 금지 사항이라 수행하지 않음. 본 이슈 항목(`Issue.md`)만 추적 대상
+* 후속: gitignore 정책 자체의 재검토 필요성은 아래 `🌱 이슈후보` 에 등록 (본 작업 범위 밖)
+* 참고: prj1#Issue307 fan-out 의 일부. 방법론 원본 prj1#Issue306
 
 ## Issue15: nginx·nginx2 이미지 nginx 버전 점검·보안 업데이트 (해결: 2026-07-16) ✅
 * 배경: 2026-07 기준 nginx stable `1.30.3` / mainline `1.31.2`. `1.27` 이하는 EOL — 2026년 보안 픽스(CVE-2026-42530 HTTP/3 UAF, CVE-2026-42945 "NGINX Rift" 등) 미수혜
@@ -58,8 +81,8 @@ date: 2026-06-26
 * commit: 5fd2f56
 
 ## Issue9: 서비스 폴더 run/compose 패턴 표준화 (해결: 2026-06-27) ✅
-* plan: `_doc_work/plan/docker-pattern-standardization_plan.md`
-* task: `_doc_work/tasks/docker-pattern-standardization_task.md`
+* plan: `_doc_work/z_done/plan/docker-pattern-standardization_plan.md`
+* task: `_doc_work/z_done/tasks/docker-pattern-standardization_task.md`
 * 해결 결과: run 12종 `run.sh`, compose 11종 `start.sh`/`clear.sh`/`.env.sample`, `docker compose`(v2) 정규화, 중첩형 3종 래퍼, README 표준 블록. 런타임 검증 — compose config 11/11, run.sh 빌드 10/12(실패 2종은 Issue10·11 로 분리), clear.sh 환원 확인. 설계 SSOT `_doc_arch/patterns/`(로컬, gitignore)
 * commit: 75ea3aa
 

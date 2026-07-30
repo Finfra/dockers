@@ -5,7 +5,7 @@
     "titleBar.border": "#cfe6f0",
     "titleBar.inactiveBackground": "#cfe6f099",
     "activityBar.activeBackground": "#f6fafc",
-    "activityBar.background": "#f6fafc",
+    "activityBar.background": "#cfe6f0",
     "editorError.foreground": "#000000ff",
     "editorGroup.border": "#f6fafc",
     "editorInfo.foreground": "#000000ff",
@@ -19,7 +19,15 @@
     "statusBar.debuggingBorder": "#f0d9cf",
     "statusBarItem.hoverBackground": "#a8d2e4",
     "statusBarItem.remoteBackground": "#cfe6f0",
-    "tab.activeBorder": "#f6fafc"
+    "tab.activeBorder": "#f6fafc",
+    "titleBar.activeForeground": "#15202b",
+    "titleBar.inactiveForeground": "#15202b99",
+    "activityBar.foreground": "#15202b",
+    "statusBar.foreground": "#15202b",
+    "statusBarItem.remoteForeground": "#15202b",
+    "activityBar.inactiveForeground": "#15202b99",
+    "commandCenter.border": "#15202b99",
+    "statusBar.debuggingForeground": "#15202b"
   },
   "peacock.color": "#cfe6f0"
 }
