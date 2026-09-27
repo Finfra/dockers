@@ -6,7 +6,10 @@ Ubuntu 기반에 Spark가 설치된 Docker 이미지입니다. 사용자 생성 
 Docker 호스트에 소스를 복사하고 컨테이너를 빌드하여 실행합니다.
 
 ### 사전 요구사항
-`_prgs` 폴더에 `spark-2.2.0-bin-hadoop2.7.tgz` 파일을 다운로드해야 합니다.
+`_prgs` 폴더에 `spark-3.4.4-bin-hadoop3.tgz` 파일을 다운로드해야 합니다 (`install.sh` 가 이 파일명을 요구).
+```bash
+wget -P _prgs https://archive.apache.org/dist/spark/spark-3.4.4/spark-3.4.4-bin-hadoop3.tgz
+```
 
 ### 빌드
 ```bash

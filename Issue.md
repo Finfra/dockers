@@ -5,7 +5,7 @@ date: 2026-06-26
 ---
 
 # Issue Management
-* Issue HWM: 17
+* Issue HWM: 18
 * 설계·해결 기록: `_doc_arch/known-issues-resolution.md` (구 Issue.md, 2024-08 8/8 해결 완료)
 * Checkpoints:
     - {git-hash} {date}
@@ -15,10 +15,10 @@ date: 2026-06-26
 # 🌱 이슈후보
 
 1. `_doc_arch`/`_doc_work` gitignore 정책 재검토 — 설계 SSOT 변경이 커밋 이력에 남지 않아 이슈 종결 시 commit hash 를 만들 수 없음(Issue16 에서 실제 발생). remote 가 public 이라 단순 추적 전환은 불가 → 별도 private repo 분리·submodule·mirror 등 대안 검토 필요
-2. `ubuntu_spark/README.md`·`CLAUDE.md` 의 Spark 버전 안내를 `install.sh` 기준 `3.4.4` 로 통일 (현재 `2.2.0` 안내대로 받으면 빌드 실패)
-3. `springBoot_gradle/do.sh`·`wordpress_adv_ssl/install.sh` 정리 + `wordpress_adv`/`wordpress_adv_ssl` 의 구 `.env.example` 제거
-4. 폴더 README 6종의 `docker-compose`(v1) 표기를 `docker compose`(v2) 로 정규화
-5. `ubuntu_ssh_provisioner/start.sh` 가 `DF_PATH` 를 공급하도록 수정 (`.env.sample` 추가 또는 `docker/docker-compose.sh` 로 위임)
+2. `springBoot_gradle/do.sh`·`wordpress_adv_ssl/install.sh` 정리 + `wordpress_adv`/`wordpress_adv_ssl` 의 구 `.env.example` 제거
+3. 폴더 README 6종의 `docker-compose`(v1) 표기를 `docker compose`(v2) 로 정규화
+4. `ubuntu_ssh_provisioner/start.sh` 가 `DF_PATH` 를 공급하도록 수정 (`.env.sample` 추가 또는 `docker/docker-compose.sh` 로 위임)
+5. 무태그 `FROM` 7종 고정 — `ubuntu_all`·`ubuntu_basic`·`ubuntu_spark`·`ubuntu_user`(`FROM ubuntu`), `mysql`·`tensorflow`·`pyspark-tensorflow-notebook` (Issue16 에서 무태그 금지 명문화, Issue18 빌드 스모크 중 확인) — 재생목록 `nginx-pinned` 처럼 전 폴더 대상 테스트로 확장 검토
 
 # 🚧 진행중
 
@@ -31,6 +31,19 @@ date: 2026-06-26
 # ✅ 완료
 
 > 상세 해결 내역은 `_doc_arch/known-issues-resolution.md` 참조.
+
+## Issue18: TDD 재생목록 #2~#7 구현 — 전 목표 green (등록: 2026-09-27, 해결: 2026-09-27) ✅
+* 목적: `tdd/playlist.md` 남은 목표 6개(#2~#7)를 테스트로 고정해 재생목록 전 목표 green 달성 (prj5#Issue100 위임)
+* 상세:
+    - 테스트 신설 6종 `tdd/cases/`: `host-port-unique`·`folder-pattern`·`compose-v2-only`·`nginx-pinned`·`spark-version-doc-match`·`image-build-smoke`
+    - red: #6 `spark-version-doc-match` — `ubuntu_spark/README.md`·`CLAUDE.md` 가 `spark-2.2.0-bin-hadoop2.7.tgz` 안내, `install.sh` 는 `spark-3.4.4-bin-hadoop3.tgz` 요구
+    - #2~#5 는 현 코드가 이미 준수 → 임시 복사본에 결함 주입(포트 8083 중복·build-all.sh·clear.sh 삭제·dead start.sh·`docker-compose` 호출·무태그 `FROM nginx`)으로 전부 red 검출 확인 후 원복
+* 구현 명세:
+    - #6 green: README·CLAUDE.md 안내를 `spark-3.4.4-bin-hadoop3.tgz` 로 교정 + README 에 wget 명령 추가 (이슈후보 구2번 해소)
+    - #2 는 같은 폴더의 compose 파일(ollamaWebui cpu/gpu)을 택일 변형으로 묶어 폴더 간 충돌만 판정. compose stderr 경고가 JSON 에 섞이지 않게 분리
+    - #7 은 jma Docker Desktop 에서 실행: ubuntu_user·pyspark-notebook 빌드 성공, `SPARK_HOME=/usr/local/spark`. SSH 세션의 키체인 접근 불가로 Docker Hub pull 이 막혀 베이스 `ubuntu:latest` 를 `public.ecr.aws/docker/library/ubuntu` 에서 받아 태그(환경 우회, 테스트 코드 무변경)
+    - 결과: #1~#6 jm4 exit 0, #7 jma pass=3 fail=0 — 재생목록 7/7 ✅
+* 커밋: {hash}
 
 ## Issue17: TDD 재생목록 #1 compose-config-valid 구현 (등록: 2026-09-27, 해결: 2026-09-27) ✅
 * 목적: `tdd/playlist.md` 1번 목표 — git 추적 compose 파일 전부에서 `docker compose config` 가 오류 없이 통과함을 테스트로 고정

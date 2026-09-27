@@ -9,7 +9,8 @@ date: 2026.09.26
 각 Docker 예제 폴더가 표준 패턴을 지키고 포트 충돌 없이 설정 검증·빌드가 통과함을 지킨다
 
 * 러너: 목표별 쉘 스크립트 `tdd/cases/<id>.sh` — 종료코드 0 = 통과
-* 목표 7개 중 테스트로 덮인 것 1개 · 남은 신규 6개
+* 목표 7개 전부 테스트로 덮임 (Issue17·Issue18)
+* #7 `image-build-smoke` 는 Docker 데몬이 필요하다 — 빌드는 jma 에서 돌린다(jm4 는 사용자 작업 기기)
 
 # 재생목록
 
@@ -18,12 +19,12 @@ date: 2026.09.26
 | # | id | 목표 | 근거 | 실행 | 상태 |
 | :- | :- | :- | :- | :- | :- |
 | 1 | `compose-config-valid` | compose 형 폴더 전부에서 docker compose config 가 오류 없이 통과한다 | Issue9 run/compose 패턴 표준화 (런타임 검증 compose config); Issue12·Issue13 config 통과; Issue17 n8n `.env` 부재 시 실패 | [compose-config-valid.sh](cases/compose-config-valid.sh) | ✅ |
-| 2 | `host-port-unique` | 전 compose 파일의 호스트 포트 매핑이 서로 겹치지 않는다(8080·8081·8083·8084·3308 등) | Issue8 포트 충돌 위험; Issue12 wordpress_adv 8083/_ssl 8084+DB 3308; Issue13 springBoot_gradle 8081 | — | ⬜ 신규 |
-| 3 | `folder-pattern` | compose 폴더는 start.sh·clear.sh 를, run 폴더는 run.sh 를 가지며 제거된 build-all.sh·dead start.sh 가 남지 않는다 | Issue9 표준화(run 12종 run.sh, compose 11종 start.sh/clear.sh/.env.sample); Issue14 dead start.sh 제거 | — | ⬜ 신규 |
-| 4 | `compose-v2-only` | 실행 스크립트에 docker-compose(v1) 호출이 없고 docker compose(v2)만 쓴다 | Issue9 docker compose(v2) 정규화; Issue16 README 6종 v1 잔존 FIXME | — | ⬜ 신규 |
-| 5 | `nginx-pinned` | nginx Dockerfile 이 무태그 FROM 없이 nginx:1.30.3 으로 고정된다 | Issue15 nginx 버전 점검·보안 업데이트 (FROM ubuntu 무핀 → nginx:1.30.3) | — | ⬜ 신규 |
-| 6 | `spark-version-doc-match` | ubuntu_spark README·CLAUDE.md 가 안내하는 Spark tgz 버전이 install.sh 요구 버전(3.4.4)과 일치한다 | Issue16 감사 중 신규 발견 — README 는 spark-2.2.0, install.sh:58 은 3.4.4 요구; Issue1 | — | ⬜ 신규 |
-| 7 | `image-build-smoke` | 과거 빌드 실패 이미지(ubuntu_user·pyspark-notebook)가 docker build 에 성공하고 pyspark 컨테이너에 SPARK_HOME 이 설정된다 | Issue10 ubuntu_user 빌드 실패; Issue11 pyspark-notebook 빌드 실패 (SPARK_HOME 정상 확인) | — | ⬜ 신규 |
+| 2 | `host-port-unique` | 전 compose 파일의 호스트 포트 매핑이 서로 겹치지 않는다(8080·8081·8083·8084·3308 등) | Issue8 포트 충돌 위험; Issue12 wordpress_adv 8083/_ssl 8084+DB 3308; Issue13 springBoot_gradle 8081 | [host-port-unique.sh](cases/host-port-unique.sh) | ✅ |
+| 3 | `folder-pattern` | compose 폴더는 start.sh·clear.sh 를, run 폴더는 run.sh 를 가지며 제거된 build-all.sh·dead start.sh 가 남지 않는다 | Issue9 표준화(run 12종 run.sh, compose 11종 start.sh/clear.sh/.env.sample); Issue14 dead start.sh 제거 | [folder-pattern.sh](cases/folder-pattern.sh) | ✅ |
+| 4 | `compose-v2-only` | 실행 스크립트에 docker-compose(v1) 호출이 없고 docker compose(v2)만 쓴다 | Issue9 docker compose(v2) 정규화; Issue16 README 6종 v1 잔존 FIXME | [compose-v2-only.sh](cases/compose-v2-only.sh) | ✅ |
+| 5 | `nginx-pinned` | nginx Dockerfile 이 무태그 FROM 없이 nginx:1.30.3 으로 고정된다 | Issue15 nginx 버전 점검·보안 업데이트 (FROM ubuntu 무핀 → nginx:1.30.3) | [nginx-pinned.sh](cases/nginx-pinned.sh) | ✅ |
+| 6 | `spark-version-doc-match` | ubuntu_spark README·CLAUDE.md 가 안내하는 Spark tgz 버전이 install.sh 요구 버전(3.4.4)과 일치한다 | Issue16 감사 중 신규 발견 — README 는 spark-2.2.0, install.sh:58 은 3.4.4 요구; Issue1; Issue18 red→안내 3.4.4 로 교정 | [spark-version-doc-match.sh](cases/spark-version-doc-match.sh) | ✅ |
+| 7 | `image-build-smoke` | 과거 빌드 실패 이미지(ubuntu_user·pyspark-notebook)가 docker build 에 성공하고 pyspark 컨테이너에 SPARK_HOME 이 설정된다 | Issue10 ubuntu_user 빌드 실패; Issue11 pyspark-notebook 빌드 실패 (SPARK_HOME 정상 확인) | [image-build-smoke.sh](cases/image-build-smoke.sh) | ✅ |
 
 # 규약
 
