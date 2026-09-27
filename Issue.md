@@ -43,7 +43,7 @@ date: 2026-06-26
     - #2 는 같은 폴더의 compose 파일(ollamaWebui cpu/gpu)을 택일 변형으로 묶어 폴더 간 충돌만 판정. compose stderr 경고가 JSON 에 섞이지 않게 분리
     - #7 은 jma Docker Desktop 에서 실행: ubuntu_user·pyspark-notebook 빌드 성공, `SPARK_HOME=/usr/local/spark`. SSH 세션의 키체인 접근 불가로 Docker Hub pull 이 막혀 베이스 `ubuntu:latest` 를 `public.ecr.aws/docker/library/ubuntu` 에서 받아 태그(환경 우회, 테스트 코드 무변경)
     - 결과: #1~#6 jm4 exit 0, #7 jma pass=3 fail=0 — 재생목록 7/7 ✅
-* 커밋: {hash}
+* 커밋: a12e091
 
 ## Issue17: TDD 재생목록 #1 compose-config-valid 구현 (등록: 2026-09-27, 해결: 2026-09-27) ✅
 * 목적: `tdd/playlist.md` 1번 목표 — git 추적 compose 파일 전부에서 `docker compose config` 가 오류 없이 통과함을 테스트로 고정
