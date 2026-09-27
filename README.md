@@ -147,4 +147,6 @@ NamJungGu, <nowage[at]gmail.com>
 
 ## 저작권 및 라이선스
 
-(c) Copyright 2005-2024 by finfra.com
+Copyright (c) 2005-2026 Finfra
+
+이 저장소의 스크립트·설정 파일은 [MIT License](LICENSE) 로 배포됩니다. 각 이미지에 포함되는 소프트웨어(Ubuntu·MySQL·Spark·n8n 등)는 각자의 라이선스를 따릅니다.
