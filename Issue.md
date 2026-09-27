@@ -5,7 +5,7 @@ date: 2026-06-26
 ---
 
 # Issue Management
-* Issue HWM: 18
+* Issue HWM: 19
 * 설계·해결 기록: `_doc_arch/known-issues-resolution.md` (구 Issue.md, 2024-08 8/8 해결 완료)
 * Checkpoints:
     - {git-hash} {date}
@@ -19,6 +19,7 @@ date: 2026-06-26
 3. 폴더 README 6종의 `docker-compose`(v1) 표기를 `docker compose`(v2) 로 정규화
 4. `ubuntu_ssh_provisioner/start.sh` 가 `DF_PATH` 를 공급하도록 수정 (`.env.sample` 추가 또는 `docker/docker-compose.sh` 로 위임)
 5. 무태그 `FROM` 7종 고정 — `ubuntu_all`·`ubuntu_basic`·`ubuntu_spark`·`ubuntu_user`(`FROM ubuntu`), `mysql`·`tensorflow`·`pyspark-tensorflow-notebook` (Issue16 에서 무태그 금지 명문화, Issue18 빌드 스모크 중 확인) — 재생목록 `nginx-pinned` 처럼 전 폴더 대상 테스트로 확장 검토
+6. 하위 폴더 `LICENSE` 10종 정리 — `ubuntu_all`·`ubuntu_basic`·`ubuntu_spark`·`ubuntu_ssh`·`ubuntu_ssh_provisioner`·`ubuntu_user`·`mysql`·`centos7_user`·`tensorflow`·`oracle-linux_ssh` 에 저작권자 미기입 GPLv2 원문(FSF 템플릿 그대로, 2020-06-27 `454b33c` 유입)이 남아 루트 MIT(Issue19)와 갈린다. prj6 license-profiles.md §5 규정상 하위 `LICENSE` 가 루트를 덮으므로 삭제(단일 MIT) 또는 의도 확인 필요 — 삭제는 사용자 승인 후
 
 # 🚧 진행중
 
@@ -31,6 +32,22 @@ date: 2026-06-26
 # ✅ 완료
 
 > 상세 해결 내역은 `_doc_arch/known-issues-resolution.md` 참조.
+
+## Issue19: 라이선스 프로파일 C — 저작권 한 줄뿐인 무표기 → MIT LICENSE 추가 (등록: 2026-09-27, 해결: 2026-09-27) ✅
+* 목적: "(c) Copyright 2005-2024 by finfra.com" 한 줄뿐이라 법적으로 All rights reserved 다(10★ repo 인데 쓰면 안 되는 상태). 예제·스니펫은 제한이 채택만 줄인다
+* 상세:
+    - `LICENSE` = MIT 원문(저작권 줄은 기존 표기 승계 — `Copyright (c) 2005-2026 Finfra`)
+    - README "저작권 및 라이선스" 절에 MIT 명시 + LICENSE 링크
+    - 정본 `/Users/nowage/_git/___architect/_doc_arch/license-profiles.md` §4 row 71 · 템플릿 `/Users/nowage/_git/___architect/data/template/license/README.md`(자리표 값 표 포함 — `{{N}}`=250 · `{{LICENSOR}}`=`Finfra Co., Ltd. (https://finfra.kr)` · `{{CONTACT}}`=finfra@gmail.com)
+* 구현 명세:
+    - 검증: `LICENSE` 존재 · README 라이선스 절 링크 · `grep -rn "All rights reserved" README*` 0건
+    - 금지: `git push`(공개 라이선스 변경은 사용자가 push) · npm publish · 기존 릴리스 태그 변경
+    - `Issue.md` 는 `python3 ~/.claude/sh/issue-tx.py --file Issue.md stage --issues <N>` / `check` 경유 스테이징 · 커밋 후 ✅ 이동 + hash 기록
+    - 결과: `LICENSE`(MIT 원문, `Copyright (c) 2005-2026 Finfra`) 신설 · README 「저작권 및 라이선스」 MIT 명시 + `[MIT License](LICENSE)` 링크 + 이미지 내 소프트웨어 각자 라이선스 고지 · 로컬 `CLAUDE.md` 동일 갱신(gitignore)
+    - TDD: `tdd/cases/license-mit-present.sh` 신설(재생목록 #8) — LICENSE 부재 상태 red(fail=3) 확인 후 구현 → green(pass=6). #1~#6 회귀 exit 0 (#7 은 jma 전용, 미실행)
+    - 검증 3항 통과: LICENSE 존재 · README 절 LICENSE 링크 · `grep -rn "All rights reserved" README*` 0건. push 미실행(사용자 몫)
+    - 후속 발견: 하위 10개 폴더(`ubuntu_*`·`mysql`·`centos7_user`·`tensorflow`·`oracle-linux_ssh`)에 2020-06 유입된 **미기입 GPLv2 보일러플레이트 `LICENSE`** 잔존 — 루트 MIT 와 갈린다. 삭제는 승인 대상이라 이슈후보 6 으로 등록
+* 커밋: 8103396
 
 ## Issue18: TDD 재생목록 #2~#7 구현 — 전 목표 green (등록: 2026-09-27, 해결: 2026-09-27) ✅
 * 목적: `tdd/playlist.md` 남은 목표 6개(#2~#7)를 테스트로 고정해 재생목록 전 목표 green 달성 (prj5#Issue100 위임)
