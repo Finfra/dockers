@@ -8,7 +8,8 @@ services:
     ports:
       - "5678:5678"
     env_file:
-      - .env
+      - path: .env
+        required: false  # clean checkout 에서도 config 통과 — .env 는 start.sh 가 생성
     environment:
       - N8N_USER=${N8N_USER}
       - N8N_HOST=${N8N_HOST}

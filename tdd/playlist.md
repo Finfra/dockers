@@ -8,8 +8,8 @@ date: 2026.09.26
 
 각 Docker 예제 폴더가 표준 패턴을 지키고 포트 충돌 없이 설정 검증·빌드가 통과함을 지킨다
 
-* 기존 러너: 없음 — 러너 신설이 첫 과제
-* 목표 7개 중 기존 테스트로 덮인 것 0개 · 신규 7개
+* 러너: 목표별 쉘 스크립트 `tdd/cases/<id>.sh` — 종료코드 0 = 통과
+* 목표 7개 중 테스트로 덮인 것 1개 · 남은 신규 6개
 
 # 재생목록
 
@@ -17,7 +17,7 @@ date: 2026.09.26
 
 | # | id | 목표 | 근거 | 실행 | 상태 |
 | :- | :- | :- | :- | :- | :- |
-| 1 | `compose-config-valid` | compose 형 폴더 전부에서 docker compose config 가 오류 없이 통과한다 | Issue9 run/compose 패턴 표준화 (런타임 검증 compose config); Issue12·Issue13 config 통과 | — | ⬜ 신규 |
+| 1 | `compose-config-valid` | compose 형 폴더 전부에서 docker compose config 가 오류 없이 통과한다 | Issue9 run/compose 패턴 표준화 (런타임 검증 compose config); Issue12·Issue13 config 통과; Issue17 n8n `.env` 부재 시 실패 | [compose-config-valid.sh](cases/compose-config-valid.sh) | ✅ |
 | 2 | `host-port-unique` | 전 compose 파일의 호스트 포트 매핑이 서로 겹치지 않는다(8080·8081·8083·8084·3308 등) | Issue8 포트 충돌 위험; Issue12 wordpress_adv 8083/_ssl 8084+DB 3308; Issue13 springBoot_gradle 8081 | — | ⬜ 신규 |
 | 3 | `folder-pattern` | compose 폴더는 start.sh·clear.sh 를, run 폴더는 run.sh 를 가지며 제거된 build-all.sh·dead start.sh 가 남지 않는다 | Issue9 표준화(run 12종 run.sh, compose 11종 start.sh/clear.sh/.env.sample); Issue14 dead start.sh 제거 | — | ⬜ 신규 |
 | 4 | `compose-v2-only` | 실행 스크립트에 docker-compose(v1) 호출이 없고 docker compose(v2)만 쓴다 | Issue9 docker compose(v2) 정규화; Issue16 README 6종 v1 잔존 FIXME | — | ⬜ 신규 |
