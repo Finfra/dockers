@@ -1,0 +1,43 @@
+FROM debian:bookworm-slim
+
+ARG USER_UID=1000
+ARG USER_GID=1000
+
+# 환경변수 — LMS(headless lms CLI) OpenAI 엔드포인트에 직결. 변환 게이트웨이 없음.
+#   LMS_HOST/LMS_PORT 는 entrypoint 가 settings.json 에 반영.
+ENV LC_ALL=C.UTF-8
+ENV DEBIAN_FRONTEND=noninteractive
+ENV ANTHROPIC_BASE_URL=http://lms:1234
+ENV ANTHROPIC_AUTH_TOKEN=lms
+ENV CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+
+# Node.js 22 + tzdata + curl(LMS 헬스 확인)
+RUN apt-get update && \
+    apt-get install -y curl git ca-certificates tzdata && \
+    curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
+    apt-get install -y nodejs && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Claude Code 설치
+RUN npm install -g @anthropic-ai/claude-code
+
+# ubuntu 유저 생성 (UID/GID 가변, 기본 1000 — 호스트 사용자와 일치 권장)
+RUN groupadd -g ${USER_GID} ubuntu && \
+    useradd -m -u ${USER_UID} -g ${USER_GID} -s /bin/bash ubuntu
+
+RUN mkdir -p /home/ubuntu/.claude
+
+# alias 설정 (시스템 전체)
+RUN echo "alias cc='claude --dangerously-skip-permissions'" >> /etc/bash.bashrc
+
+RUN chown -R ubuntu:ubuntu /home/ubuntu
+
+# LMS 연결 대기 + settings.json 생성 스크립트
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+USER ubuntu
+WORKDIR /home/ubuntu
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["sleep", "infinity"]

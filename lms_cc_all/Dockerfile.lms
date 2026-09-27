@@ -1,0 +1,45 @@
+FROM ubuntu:22.04
+
+ARG USER_UID=1000
+ARG USER_GID=1000
+
+ENV LC_ALL=C.UTF-8
+ENV DEBIAN_FRONTEND=noninteractive
+# llmster 설치 경로(lms 유저 홈) 를 PATH 에 등록
+ENV PATH="/home/lms/.lmstudio/bin:${PATH}"
+
+# 런타임 의존:
+#   - curl/ca-certificates : install.sh·헬스체크
+#   - tzdata               : TZ 적용
+#   - libatomic1/libgomp1  : llmster 추론 런타임 필수 (없으면 설치/구동 실패)
+RUN apt-get update && \
+    apt-get install -y curl ca-certificates tzdata libatomic1 libgomp1 && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# 실행 유저 (UID/GID 가변 — 호스트 모델 디렉토리 권한 일치)
+RUN groupadd -g ${USER_GID} lms && \
+    useradd -m -u ${USER_UID} -g ${USER_GID} -s /bin/bash lms
+
+# ── LM Studio CLI(`lms` = llmster headless 데몬) 설치 ──────────────────────
+# [온라인 설치] 외부망 가능 호스트용. install.sh 가 llmster 바이너리를
+#   /home/lms/.lmstudio/bin/lms 로 설치 (GUI 불요, headless 데몬).
+USER lms
+RUN curl -fsSL https://lmstudio.ai/install.sh | bash && \
+    mkdir -p /home/lms/.lmstudio/models
+
+# [air-gap 대안] 폐쇄망이면 위 RUN 을 주석 처리하고, 외부망에서 받은
+#   llmster 바이너리를 build context 의 lms-cli/ 에 두어 COPY:
+# USER root
+# COPY lms-cli/lms /home/lms/.lmstudio/bin/lms
+# RUN chmod +x /home/lms/.lmstudio/bin/lms && chown -R lms:lms /home/lms/.lmstudio
+# USER lms
+# ──────────────────────────────────────────────────────────────────────────
+
+USER root
+COPY entrypoint.lms.sh /usr/local/bin/entrypoint.lms.sh
+RUN chmod +x /usr/local/bin/entrypoint.lms.sh
+
+USER lms
+WORKDIR /home/lms
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.lms.sh"]

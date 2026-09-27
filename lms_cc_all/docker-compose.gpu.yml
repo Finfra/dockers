@@ -1,0 +1,12 @@
+# GPU override — LMS 추론 백엔드에 NVIDIA GPU 할당
+# 사용 예 (같은 폴더의 .env 자동 로드):
+#   docker compose -f docker-compose.yml -f docker-compose.gpu.yml up -d
+services:
+  lms:
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]

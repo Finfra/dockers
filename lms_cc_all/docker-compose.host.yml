@@ -1,0 +1,40 @@
+name: ${COMPOSE_PROJECT_NAME:-lms_host_claude}
+
+# 호스트 직접 설치 LMS(fg1, DeviceManagement/fg1/lms) 전용 claude 테스트 컨테이너.
+#   - lms 컨테이너 없음: 호스트의 lms-server.service(0.0.0.0:1234)에 host-gateway 로 직결
+#   - 호스트 OS 의 claude 설정(~/.claude)은 건드리지 않음 (컨테이너 내부에서만 LMS 직결)
+#   - 모델 키는 호스트 lms ls 실측 키 (컨테이너판 qwen/qwen3-coder-30b 와 다름에 주의)
+#   - DeviceManagement/fg1/lms/test_claude.zsh 는 같은 컨테이너명(claude-lmstest)을
+#     감지해 재사용하므로 병행 사용 가능
+# 사용:
+#   docker compose -f docker-compose.host.yml up -d
+#   docker exec -it claude-lmstest claude          # 에이전트 대화
+#   docker compose -f docker-compose.host.yml down # 제거
+
+services:
+  claude-lmstest:
+    image: claude
+    container_name: ${CLAUDE_TEST_CONTAINER_NAME:-claude-lmstest}
+    restart: unless-stopped
+    # 컨테이너 → 호스트 LMS 접속 (docker0 게이트웨이 매핑)
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # claude:latest 내장 entrypoint(gateway 직결판) 대신 4판(LMS 직결) 주입 — 이미지 무변경 원칙
+    entrypoint: /usr/local/bin/entrypoint.sh
+    command: ["sleep", "infinity"]
+    volumes:
+      - ~/df:/home/ubuntu/df
+      - ./entrypoint.sh:/usr/local/bin/entrypoint.sh:ro
+    environment:
+      # 호스트 LMS OpenAI /v1 직결 (변환 게이트웨이 없음)
+      - ANTHROPIC_BASE_URL=http://host.docker.internal:${LMS_PORT:-1234}
+      - ANTHROPIC_AUTH_TOKEN=lms
+      # 호스트 운용 2모델: qwen3-coder-30b-a3b-instruct(기본) | gemma-4-26b-a4b-it
+      - ANTHROPIC_MODEL=${LMS_HOST_MODEL:-qwen3-coder-30b-a3b-instruct}
+      - LMS_HOST=host.docker.internal
+      - LMS_PORT=${LMS_PORT:-1234}
+      - API_TIMEOUT_MS=${API_TIMEOUT_MS:-600000}
+      - CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+      - TZ=${TZ:-Asia/Seoul}
+    tty: true
+    stdin_open: true

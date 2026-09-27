@@ -1,0 +1,72 @@
+FROM debian:bookworm-slim
+
+ARG USER_UID=1000
+ARG USER_GID=1000
+
+# 환경변수
+ENV LC_ALL=C.UTF-8
+ENV DEBIAN_FRONTEND=noninteractive
+ENV ANTHROPIC_BASE_URL=http://ollama:11434
+ENV ANTHROPIC_AUTH_TOKEN=ollama
+ENV CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+
+# Node.js 22 + tzdata (TZ 환경변수 적용용 zoneinfo)
+RUN apt-get update && \
+    apt-get install -y curl git netcat-traditional tzdata && \
+    curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
+    apt-get install -y nodejs && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Claude Code 설치
+RUN npm install -g @anthropic-ai/claude-code
+
+# ubuntu 유저 생성 (UID/GID 가변, 기본 1000 — 호스트 사용자와 일치 권장)
+RUN groupadd -g ${USER_GID} ubuntu && \
+    useradd -m -u ${USER_UID} -g ${USER_GID} -s /bin/bash ubuntu
+
+# ubuntu용 .claude 디렉토리 생성
+RUN mkdir -p /home/ubuntu/.claude
+
+# alias 설정 (시스템 전체)
+RUN echo "alias cc='claude --dangerously-skip-permissions'" >> /etc/bash.bashrc
+
+# ubuntu 홈 소유권 설정
+RUN chown -R ubuntu:ubuntu /home/ubuntu
+
+# Ollama 연결 대기 스크립트
+RUN cat > /usr/local/bin/wait-for-ollama.sh <<'SCRIPT'
+#!/bin/bash
+# settings.json 동적 생성 (OLLAMA_MODEL 환경변수 반영)
+mkdir -p /home/ubuntu/.claude
+cat > /home/ubuntu/.claude/settings.json <<JSON
+{
+  "model": "${OLLAMA_MODEL}",
+  "env": {
+    "ANTHROPIC_BASE_URL": "http://ollama:11434",
+    "ANTHROPIC_AUTH_TOKEN": "ollama"
+  }
+}
+JSON
+
+# Ollama 호스트 해석 가능 여부 확인 (Docker Compose 네트워크 밖이면 스킵)
+if getent hosts ollama >/dev/null 2>&1; then
+  echo "Waiting for Ollama to be ready..."
+  until nc -z ollama 11434; do
+    echo "Ollama is unavailable - sleeping"
+    sleep 2
+  done
+  echo "Ollama is up - starting Claude Code environment"
+else
+  echo "Ollama host not found - running without Ollama"
+fi
+exec "$@"
+SCRIPT
+
+RUN chmod +x /usr/local/bin/wait-for-ollama.sh
+
+# 기본 유저 (변경 가능: docker exec -u root ... 로 root 접근 가능)
+USER ubuntu
+WORKDIR /home/ubuntu
+
+ENTRYPOINT ["/usr/local/bin/wait-for-ollama.sh"]
+CMD ["sleep", "infinity"]

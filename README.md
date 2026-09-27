@@ -9,24 +9,25 @@
 - **보안 강화**: SSL 인증서 자동 생성 및 관리
 - **의존성 관리**: 서비스 간 의존성 자동 처리
 - **포트 충돌 방지**: 각 서비스별 고유 포트 할당
+# Docker 스크립트 목록
+## 1. Web
 
-## Docker 스크립트 목록
-
-### 웹 서비스
+### 1.1. 웹 서비스
 | 이름                     | 설명                                      |
 | ------------------------ | ----------------------------------------- |
 | [nginx](./nginx)         | 공식 Nginx(1.30.3) 웹 서버                |
 | [nginx_k8s](./nginx_k8s) | Kubernetes 배포 테스트용 Nginx 웹 서버    |
 | [apacheSsl](./apacheSsl) | SSL 인증서를 사용한 Apache 웹 서버 테스트 |
 
-### WordPress
+### 1.2. WordPress
 | 이름                                     | 설명                                              |
 | ---------------------------------------- | ------------------------------------------------- |
 | [wordpress](./wordpress)                 | 기본 WordPress 설정                               |
 | [wordpress_adv](./wordpress_adv)         | HTTPS 및 한국어 지원이 포함된 고급 WordPress 설정 |
 | [wordpress_adv_ssl](./wordpress_adv_ssl) | SSL 인증서가 포함된 고급 WordPress 설정           |
 
-### 개발 환경
+## 2. OS
+### 2.1. 개발 환경
 | 이름                                               | 설명                                     |
 | -------------------------------------------------- | ---------------------------------------- |
 | [centos7_user](./centos7_user)                     | CentOS7 기반 사용자 생성 기능 포함       |
@@ -37,18 +38,20 @@
 | [ubuntu_ssh_provisioner](./ubuntu_ssh_provisioner) | 프로비저닝 기능이 포함된 Ubuntu SSH 환경 |
 | [oracle-linux_ssh](./oracle-linux_ssh)             | SSH 접속이 가능한 Oracle Linux 환경      |
 
-### 데이터베이스
+## 3. DevInfra
+### 3.1. 데이터베이스
 | 이름             | 설명                     |
 | ---------------- | ------------------------ |
 | [mysql](./mysql) | Python2/3가 추가된 MySQL |
 
-### Java 개발
+### 3.2. Java 개발
 | 이름                                     | 설명                           |
 | ---------------------------------------- | ------------------------------ |
 | [jdk17](./jdk17)                         | JDK 17 개발 환경               |
 | [springBoot_gradle](./springBoot_gradle) | Spring Boot + Gradle 개발 환경 |
 
-### 데이터 사이언스 & AI
+## 4. 데이터 사이언스 & AI
+### 4.1. DeepLearning
 | 이름                                                         | 설명                          |
 | ------------------------------------------------------------ | ----------------------------- |
 | [pyspark-notebook](./pyspark-notebook)                       | Jupyter PySpark Notebook      |
@@ -56,11 +59,13 @@
 | [tensorflow](./tensorflow)                                   | TensorFlow 개발 환경          |
 | [ubuntu_spark](./ubuntu_spark)                               | Ubuntu 기반 Spark 환경        |
 
-### LLM관련 도구
-| 이름                         | 설명                                     |
-| ---------------------------- | ---------------------------------------- |
-| [n8n](./n8n)                 | 워크플로우 자동화 도구                   |
-| [ollamaWebui](./ollamaWebui) | Ollama와 Open WebUI를 통한 AI 인터페이스 |
+### 4.2. LLM Tool
+| 이름                           | 설명                                           |
+| ------------------------------ | ---------------------------------------------- |
+| [n8n](./n8n)                   | 워크플로우 자동화 도구                         |
+| [ollamaWebui](./ollamaWebui)   | Ollama와 Open WebUI를 통한 AI 인터페이스       |
+| [ollama-claude](./ollama-claude) | 로컬 Ollama 백엔드로 Claude Code 구동(에어갭) |
+| [lms-cc](./lms-cc)             | 범용 Claude Code 이미지 ([finfra/lms-cc](https://hub.docker.com/r/finfra/lms-cc)) — LMS/Ollama/공식 API 연결 |
 
 
 

@@ -65,6 +65,10 @@ wordpress_adv_ssl/wordpress/.env
 **/*.zip
 **/*.7z
 
+# for VSCode Local History
+.history/
+**/.history/
+
 # for Claude Code
 .claude/
 **/.claude/
