@@ -5,7 +5,7 @@ date: 2026-06-26
 ---
 
 # Issue Management
-* Issue HWM: 16
+* Issue HWM: 17
 * 설계·해결 기록: `_doc_arch/known-issues-resolution.md` (구 Issue.md, 2024-08 8/8 해결 완료)
 * Checkpoints:
     - {git-hash} {date}
@@ -31,6 +31,16 @@ date: 2026-06-26
 # ✅ 완료
 
 > 상세 해결 내역은 `_doc_arch/known-issues-resolution.md` 참조.
+
+## Issue17: TDD 재생목록 #1 compose-config-valid 구현 (등록: 2026-09-27, 해결: 2026-09-27) ✅
+* 목적: `tdd/playlist.md` 1번 목표 — git 추적 compose 파일 전부에서 `docker compose config` 가 오류 없이 통과함을 테스트로 고정
+* 상세:
+    - 테스트 신설: `tdd/cases/compose-config-valid.sh` (git 추적 compose 12개 대상, `.history`·`_doc_*` 템플릿 제외)
+    - red: `n8n/docker-compose.yml` 1건 실패 — `env_file: .env` 가 필수라 `.env`(gitignore, `start.sh` 가 생성) 없는 clean checkout 에서 config 불가
+* 구현 명세:
+    - `n8n` 의 `env_file` 을 `path: .env` + `required: false` 로 선택화. `.env` 존재 시 로드 동작은 동일함을 임시 복사본으로 확인
+    - green: pass=12 fail=0. 재생목록 #1 실행 열·상태 ✅ 갱신
+* 커밋: e25605b
 
 ## Issue16: _doc_arch ↔ 소스코드 정합성 감사 (해결: 2026-07-21) ✅
 * 목적: `_doc_arch/` 영속 설계 문서의 참조 경로·스크립트명·동작 서술이 현재 소스코드와 어긋난 곳(stale)을 전수 검토·교정
