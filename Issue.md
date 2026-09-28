@@ -5,7 +5,7 @@ date: 2026-06-26
 ---
 
 # Issue Management
-* Issue HWM: 19
+* Issue HWM: 20
 * 설계·해결 기록: `_doc_arch/known-issues-resolution.md` (구 Issue.md, 2024-08 8/8 해결 완료)
 * Checkpoints:
     - {git-hash} {date}
@@ -20,6 +20,7 @@ date: 2026-06-26
 4. `ubuntu_ssh_provisioner/start.sh` 가 `DF_PATH` 를 공급하도록 수정 (`.env.sample` 추가 또는 `docker/docker-compose.sh` 로 위임)
 5. 무태그 `FROM` 7종 고정 — `ubuntu_all`·`ubuntu_basic`·`ubuntu_spark`·`ubuntu_user`(`FROM ubuntu`), `mysql`·`tensorflow`·`pyspark-tensorflow-notebook` (Issue16 에서 무태그 금지 명문화, Issue18 빌드 스모크 중 확인) — 재생목록 `nginx-pinned` 처럼 전 폴더 대상 테스트로 확장 검토
 6. 하위 폴더 `LICENSE` 10종 정리 — `ubuntu_all`·`ubuntu_basic`·`ubuntu_spark`·`ubuntu_ssh`·`ubuntu_ssh_provisioner`·`ubuntu_user`·`mysql`·`centos7_user`·`tensorflow`·`oracle-linux_ssh` 에 저작권자 미기입 GPLv2 원문(FSF 템플릿 그대로, 2020-06-27 `454b33c` 유입)이 남아 루트 MIT(Issue19)와 갈린다. prj6 license-profiles.md §5 규정상 하위 `LICENSE` 가 루트를 덮으므로 삭제(단일 MIT) 또는 의도 확인 필요 — 삭제는 사용자 승인 후
+7. 재생목록 #7 `image-build-smoke` jma 재실행 — Issue20 에서 jma Docker Desktop 데몬 미기동으로 이관. jma GUI 에서 Docker Desktop 기동 후 `tdd/cases/image-build-smoke.sh` 실행(Docker Hub pull 은 keychain 우회 필요 — `_doc_work/debug_TECH.md` 2026-09-27)
 
 # 🚧 진행중
 
@@ -33,6 +34,27 @@ date: 2026-06-26
 
 > 상세 해결 내역은 `_doc_arch/known-issues-resolution.md` 참조.
 
+## Issue20: TDD 풀 재생 — 재생목록 ✅ 8행 1→8 실행·행별 rc·소요 기록 (등록: 2026-09-29, 해결: 2026-09-29) ✅
+* 목적: `tdd/playlist.md` ✅ 8행을 재생 순서대로 `tdd/cases/<id>.sh` 각각 실행해 현 HEAD 의 회귀 상태를 기록 (prj5#Issue108 위임 · 러너 `run.sh` 없음)
+* 상세:
+    - 기준 HEAD `c9a813d` · #1~#6·#8 은 jm4, #7 은 jma 전용(jm4 docker build 금지)
+    - 결과표
+
+        | # | id | 실행처 | rc | 소요 | 요약 |
+        | :- | :- | :- | :- | :- | :- |
+        | 1 | `compose-config-valid` | jm4 | 0 | 3.2s | pass=12 fail=0 |
+        | 2 | `host-port-unique` | jm4 | 0 | 3.5s | 충돌 0건 (16개 매핑) |
+        | 3 | `folder-pattern` | jm4 | 0 | 0.3s | pass=23 fail=0 |
+        | 4 | `compose-v2-only` | jm4 | 0 | 0.1s | v1 호출 0건 (스크립트 58개) |
+        | 5 | `nginx-pinned` | jm4 | 0 | 0.0s | pass=2 fail=0 |
+        | 6 | `spark-version-doc-match` | jm4 | 0 | 0.0s | pass=2 fail=0 |
+        | 7 | `image-build-smoke` | jma | — | — | **미실행·이관** — jma SSH 접속은 되나 Docker Desktop 데몬 미기동(`~/.docker/run/docker.sock` 없음, `docker info` 연결 실패) |
+        | 8 | `license-mit-present` | jm4 | 0 | 0.0s | pass=6 fail=0 |
+
+* 구현 명세:
+    - TDD 해당 없음: 기존 테스트 재생만 — 코드 변경 없음. red 0건이라 수정 이슈 없음
+    - 결과: 실행 7/8 · green 7 · red 0 · red→fix 커밋 없음 · #7 이관(재실행은 이슈후보 7)
+    - 금지 준수: jm4 docker build·`pkill -f`·push 미실행
 ## Issue19: 라이선스 프로파일 C — 저작권 한 줄뿐인 무표기 → MIT LICENSE 추가 (등록: 2026-09-27, 해결: 2026-09-27) ✅
 * 목적: "(c) Copyright 2005-2024 by finfra.com" 한 줄뿐이라 법적으로 All rights reserved 다(10★ repo 인데 쓰면 안 되는 상태). 예제·스니펫은 제한이 채택만 줄인다
 * 상세:
