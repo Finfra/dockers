@@ -55,6 +55,7 @@ date: 2026-06-26
     - TDD 해당 없음: 기존 테스트 재생만 — 코드 변경 없음. red 0건이라 수정 이슈 없음
     - 결과: 실행 7/8 · green 7 · red 0 · red→fix 커밋 없음 · #7 이관(재실행은 이슈후보 7)
     - 금지 준수: jm4 docker build·`pkill -f`·push 미실행
+* 커밋: c135f1d
 ## Issue19: 라이선스 프로파일 C — 저작권 한 줄뿐인 무표기 → MIT LICENSE 추가 (등록: 2026-09-27, 해결: 2026-09-27) ✅
 * 목적: "(c) Copyright 2005-2024 by finfra.com" 한 줄뿐이라 법적으로 All rights reserved 다(10★ repo 인데 쓰면 안 되는 상태). 예제·스니펫은 제한이 채택만 줄인다
 * 상세:
