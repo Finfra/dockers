@@ -61,7 +61,7 @@ date: 2026-06-26
 * 상세:
     - `LICENSE` = MIT 원문(저작권 줄은 기존 표기 승계 — `Copyright (c) 2005-2026 Finfra`)
     - README "저작권 및 라이선스" 절에 MIT 명시 + LICENSE 링크
-    - 정본 `/Users/nowage/_git/___architect/_doc_arch/license-profiles.md` §4 row 71 · 템플릿 `/Users/nowage/_git/___architect/data/template/license/README.md`(자리표 값 표 포함 — `{{N}}`=250 · `{{LICENSOR}}`=`Finfra Co., Ltd. (https://finfra.kr)` · `{{CONTACT}}`=finfra@gmail.com)
+    - 정본 `/Users/nowage/_git/___oracle/_doc_arch/license-profiles.md` §4 row 71 · 템플릿 `/Users/nowage/_git/___oracle/data/template/license/README.md`(자리표 값 표 포함 — `{{N}}`=250 · `{{LICENSOR}}`=`Finfra Co., Ltd. (https://finfra.kr)` · `{{CONTACT}}`=finfra@gmail.com)
 * 구현 명세:
     - 검증: `LICENSE` 존재 · README 라이선스 절 링크 · `grep -rn "All rights reserved" README*` 0건
     - 금지: `git push`(공개 라이선스 변경은 사용자가 push) · npm publish · 기존 릴리스 태그 변경
