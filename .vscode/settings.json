@@ -29,5 +29,6 @@
     "commandCenter.border": "#15202b99",
     "statusBar.debuggingForeground": "#15202b"
   },
-  "peacock.color": "#cfe6f0"
+  "peacock.color": "#cfe6f0",
+  "peacock.remoteColor": "#ff3d00"
 }
