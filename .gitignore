@@ -81,3 +81,6 @@ claude/.env
 
 # issue-map 산출물 (Issue.md 로부터 재생성 — prj1#Issue286)
 Issue_map.htm
+
+# for vllm_qwen38 (기동 로그)
+vllm_qwen38/logs/

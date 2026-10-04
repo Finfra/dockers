@@ -1,0 +1,57 @@
+name: ${COMPOSE_PROJECT_NAME:-vllm_qwen38}
+
+services:
+  vllm:
+    image: vllm-qwen38:${VLLM_IMAGE_TAG:-v0.30.0-cu129}
+    build:
+      context: .
+      args:
+        BASE_IMAGE: vllm/vllm-openai:${VLLM_IMAGE_TAG:-v0.30.0-cu129}
+    container_name: ${VLLM_CONTAINER_NAME:-vllm-qwen38}
+    restart: unless-stopped
+    ipc: host
+    ports:
+      - "${VLLM_PORT:-8000}:8000"
+    environment:
+      - HF_TOKEN=${HF_TOKEN:-}
+      - HF_HOME=/root/.cache/huggingface
+      - TZ=${TZ:-Asia/Seoul}
+      # 구형 드라이버(525, CUDA 12.0) 우회: 이미지의 cuda>=12.9 요구 검사 해제
+      #   (compat libcuda 제거·cu129 torch 교체는 Dockerfile 에서 처리). 드라이버 575+ 면 제거 가능
+      - NVIDIA_DISABLE_REQUIRE=${NVIDIA_DISABLE_REQUIRE:-1}
+      #   525 드라이버 + cu129 torch 는 미지정 시 "named symbol not found" → LAZY 명시 필수
+      - CUDA_MODULE_LOADING=LAZY
+      #   FlashInfer 사전빌드 sampling 커널이 이 환경에서 "kernel image is invalid" → PyTorch 샘플러 사용
+      - VLLM_USE_FLASHINFER_SAMPLER=0
+    volumes:
+      - ${HF_CACHE_DIR:-~/.cache/huggingface}:/root/.cache/huggingface
+      - ${DF_DIR:-~/df}:/df
+      # torch.compile·CUDA graph 캐시 보존 → 재기동 시 컴파일 생략
+      - ${VLLM_CACHE_DIR:-~/.cache/vllm}:/root/.cache/vllm
+    # vllm/vllm-openai 이미지 entrypoint = `vllm serve`
+    command: >
+      ${VLLM_MODEL:-cyankiwi/Qwen3.8-27B-AWQ-INT4}
+      --served-model-name ${SERVED_MODEL_NAME:-qwen3.8-27b}
+      --host 0.0.0.0 --port 8000
+      --kv-cache-dtype ${KV_CACHE_DTYPE:-turboquant_4bit_nc}
+      --max-model-len ${MAX_MODEL_LEN:-32768}
+      --max-num-seqs ${MAX_NUM_SEQS:-2}
+      --max-num-batched-tokens ${MAX_NUM_BATCHED_TOKENS:-512}
+      --gpu-memory-utilization ${GPU_MEMORY_UTILIZATION:-0.95}
+      --cpu-offload-gb ${CPU_OFFLOAD_GB:-9}
+      --reasoning-parser qwen3
+      --enable-auto-tool-choice --tool-call-parser qwen3_coder
+      ${VLLM_EXTRA_ARGS:-}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 1200s   # 첫 기동 시 모델 다운로드 + 로드 + CUDA graph 캡처
