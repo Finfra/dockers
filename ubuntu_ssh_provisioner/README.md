@@ -18,13 +18,13 @@
 1. docker-compose로 컨테이너를 실행합니다.
    ```bash
    cd docker
-   docker-compose up -d
+   docker compose up -d
    ```
 
 2. 컨테이너에 접속합니다.
    ```bash
    cd docker
-   docker-compose exec provisioner bash
+   docker compose exec provisioner bash
    # 키설정
    ```
    `[서비스명]`에는 `docker-compose.yml`에 정의된 서비스 이름을 입력하세요.

@@ -70,7 +70,7 @@ docker exec -it ollama ollama pull llama2
 
 ### 서비스 중지
 ```bash
-docker-compose down
+docker compose down
 ```
 
 ### 서비스 재시작
@@ -80,7 +80,7 @@ docker-compose down
 
 #### 볼륨 포함하여 완전 삭제
 ```bash
-docker-compose down --volumes
+docker compose down --volumes
 ```
 
 ## 권한 문제 해결

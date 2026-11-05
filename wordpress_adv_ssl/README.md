@@ -95,8 +95,8 @@ openssl x509 -in ~/.ssh/ssl/server-cert.pem -text -noout
 ```
 3. 컨테이너 재시작:
 ```bash
-docker-compose down
-docker-compose up -d
+docker compose down
+docker compose up -d
 ```
 
 ## 주요 특징
@@ -152,7 +152,7 @@ docker-compose up -d
 docker exec wp1 wp plugin deactivate wp-rest-api-controller --path=/var/www/html --allow-root
 
 # WordPress 컨테이너 재시작
-docker-compose restart wp1
+docker compose restart wp1
 ```
 
 ### curl을 사용한 글 작성
@@ -266,7 +266,7 @@ openssl req -new -key server-key.pem -out server.csr \
 
 컨테이너 중지:
 ```bash
-docker-compose down
+docker compose down
 ```
 
 ## 참고사항
