@@ -17,7 +17,7 @@
 1. docker-compose로 컨테이너를 실행합니다.
    ```bash
    cd docker
-   docker-compose up -d
+   docker compose up -d
    ```
 
 2. 컨테이너에 SSH로 접속합니다.
@@ -30,7 +30,7 @@
 3. 컨테이너에 직접 접속하려면:
    ```bash
    cd docker
-   docker-compose exec o1 bash
+   docker compose exec provisioner bash
    ```
    
 ## 참고

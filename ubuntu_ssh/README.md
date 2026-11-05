@@ -17,12 +17,12 @@
 1. docker-compose로 컨테이너를 빌드 및 실행합니다.
    ```bash
    cd docker
-   docker-compose up -d --build
+   docker compose up -d --build
    ```
 2. 컨테이너에 직접 접속하려면:
    ```bash
    cd docker
-   docker-compose exec u1 bash
+   docker compose exec provisioner bash
    ```
 
 3. 컨테이너에 SSH로 접속합니다.
@@ -62,7 +62,7 @@
 - 컨테이너가 정상 실행 중인지 확인합니다.
   ```bash
   cd docker
-  docker-compose ps
+  docker compose ps
   ```
 - SSH 접속 테스트 예시:
   ```bash
