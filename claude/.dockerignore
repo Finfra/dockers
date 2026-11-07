@@ -1,0 +1,4 @@
+# 빌드 컨텍스트 제외 목록 — Dockerfile 은 entrypoint.sh 만 COPY 한다
+# .env(ANTHROPIC_API_KEY)·소스 마운트 폴더(df/)를 빌드 데몬으로 보내지 않는다
+.env
+df/

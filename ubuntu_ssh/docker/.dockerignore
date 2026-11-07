@@ -1,0 +1,4 @@
+# 빌드 컨텍스트 제외 목록 — Dockerfile 은 ssh/id_rsa.pub 만 COPY 한다
+# 개인키(id_rsa·id_rsa.ppk)를 빌드 데몬으로 보내지 않는다
+ssh/id_rsa
+ssh/id_rsa.ppk

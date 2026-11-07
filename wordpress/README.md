@@ -12,7 +12,7 @@
 ### ARM64 (M1/M2 Mac) 환경
 ```bash
 # docker-compose.yml 파일이 ARM64용으로 설정되어 있으므로 그대로 실행
-docker-compose up -d
+docker compose up -d
 ```
 
 ### x64 (Intel Mac, Windows, Linux) 환경
@@ -22,7 +22,7 @@ sed -i '' 's/platform: linux\/arm64\/v8//g' docker-compose.yml
 sed -i '' 's/mysql\/mysql-server:8.0/mysql:5.7/g' docker-compose.yml
 
 # 컨테이너 실행
-docker-compose up -d
+docker compose up -d
 ```
 
 ## 설치 및 실행 방법
@@ -56,11 +56,11 @@ http://localhost:8000
 ## 컨테이너 중지
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 ## 볼륨 삭제
 
 ```bash
-docker-compose down -v
+docker compose down -v
 ``` 

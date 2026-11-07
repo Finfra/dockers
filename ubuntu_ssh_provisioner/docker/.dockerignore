@@ -1,0 +1,2 @@
+# 빌드 컨텍스트 제외 목록 — Dockerfile 은 installOnEc2.sh·startup.sh 만 COPY 한다
+.env

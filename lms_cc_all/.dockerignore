@@ -1,0 +1,4 @@
+# 빌드 컨텍스트 제외 목록 — Dockerfile.claude/.lms 는 entrypoint*.sh 만 COPY 한다
+# env.sh 는 .env 를 가리키는 심볼릭 링크
+.env
+env.sh

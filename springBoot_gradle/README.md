@@ -63,10 +63,10 @@ http://localhost:8081
 
 ```bash
 # 컨테이너 정지 및 제거
-docker-compose down --volumes
+docker compose down --volumes
 
 # 이미지 제거
-docker rmi $(docker images | grep "springBoot_gradle" | awk '{print $3}')
+docker rmi $(docker images | grep -i "springboot_gradle" | awk '{print $3}')
 
 # JDK 17 이미지도 제거하려면
 docker rmi nowage/jdk:17

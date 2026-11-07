@@ -12,11 +12,12 @@ RUN update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
 
 RUN mkdir /var/run/sshd
 
-# root 사용자 비밀번호 설정
+# sshd 런타임·root .ssh 디렉토리 준비
 RUN mkdir -p /var/run/ssh
 RUN mkdir -p /root/.ssh
 RUN chmod 700 /root/.ssh
 
+# root 사용자 비밀번호 설정
 RUN echo 'root:password' | chpasswd
 
 # ssh 공개키 복사 및 root authorized_keys 등록
